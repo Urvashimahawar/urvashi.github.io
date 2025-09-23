@@ -579,6 +579,36 @@
             border-top: 1px solid #4b6584;
         }
         
+        /* Admin Login Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+        
+        .login-form {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .login-error {
+            color: var(--accent);
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+        
         /* Responsive Styles */
         @media (max-width: 768px) {
             .header-content {
@@ -785,6 +815,20 @@
         .tab-content.active {
             display: block;
         }
+        
+        /* Add some basic styling */
+        .product-form {
+            margin-bottom: 20px;
+        }
+        .product-list {
+            list-style: none;
+            padding: 0;
+        }
+        .product-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -925,98 +969,115 @@
     <!-- Admin Page -->
     <div id="admin-page" class="admin-panel" style="display: none;">
         <div class="container">
-            <div class="admin-header">
-                <div class="logo">
-                    <i class="fas fa-gift"></i>
-                    <h1>Urvashi Gift Center - Admin Panel</h1>
-                </div>
-                <div class="admin-actions">
-                    <button class="btn btn-success" id="save-to-github">Save to GitHub</button>
-                    <button class="btn btn-primary" id="update-sheets">Update Google Sheets</button>
-                    <button class="btn" id="back-to-store">Back to Store</button>
+            <!-- Admin Login Form -->
+            <div id="admin-login" class="login-container">
+                <div class="login-form">
+                    <h2 class="login-title">Admin Login</h2>
+                    <div class="form-group">
+                        <label for="admin-password">Password</label>
+                        <input type="password" id="admin-password" class="form-control" placeholder="Enter admin password">
+                    </div>
+                    <button class="btn btn-primary btn-block" id="login-btn">Login</button>
+                    <div id="login-error" class="login-error">Incorrect password. Please try again.</div>
                 </div>
             </div>
             
-            <div class="tabs">
-                <div class="tab active" data-tab="add-product">Add Product</div>
-                <div class="tab" data-tab="manage-products">Manage Products</div>
-            </div>
-            
-            <!-- Add Product Tab -->
-            <div class="tab-content active" id="add-product">
-                <div class="form-container">
-                    <h2 class="page-title">Add New Product</h2>
-                    <div class="form-group">
-                        <label for="itemNo">Product ID</label>
-                        <input type="text" id="itemNo" class="form-control" placeholder="Enter product ID">
+            <!-- Admin Panel (hidden until login) -->
+            <div id="admin-panel-content" style="display: none;">
+                <div class="admin-header">
+                    <div class="logo">
+                        <i class="fas fa-gift"></i>
+                        <h1>Urvashi Gift Center - Admin Panel</h1>
                     </div>
-                    <div class="form-group">
-                        <label for="itemName">Product Name</label>
-                        <input type="text" id="itemName" class="form-control" placeholder="Enter product name">
+                    <div class="admin-actions">
+                        <button class="btn btn-success" id="save-to-github">Save to GitHub</button>
+                        <button class="btn btn-primary" id="update-sheets">Update Google Sheets</button>
+                        <button class="btn" id="back-to-store">Back to Store</button>
+                        <button class="btn btn-danger" id="logout-btn">Logout</button>
                     </div>
-                    <div class="form-group">
-                        <label for="itemPrice">Price (₹)</label>
-                        <input type="number" id="itemPrice" class="form-control" placeholder="Enter price" step="0.01">
-                    </div>
-                    <div class="form-group">
-                        <label for="itemQty">Quantity</label>
-                        <input type="number" id="itemQty" class="form-control" placeholder="Enter quantity">
-                    </div>
-                    <div class="form-group">
-                        <label>Upload Images (Min 3)</label>
-                        <div class="image-upload">
-                            <div class="upload-box" id="uploadBox1">
-                                <i class="fas fa-plus"></i>
-                                <span>Image 1</span>
-                                <img src="" alt="Uploaded image">
-                                <input type="file" style="display: none;" class="image-input" data-id="1" accept="image/*">
-                            </div>
-                            <div class="upload-box" id="uploadBox2">
-                                <i class="fas fa-plus"></i>
-                                <span>Image 2</span>
-                                <img src="" alt="Uploaded image">
-                                <input type="file" style="display: none;" class="image-input" data-id="2" accept="image/*">
-                            </div>
-                            <div class="upload-box" id="uploadBox3">
-                                <i class="fas fa-plus"></i>
-                                <span>Image 3</span>
-                                <img src="" alt="Uploaded image">
-                                <input type="file" style="display: none;" class="image-input" data-id="3" accept="image/*">
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary btn-block" id="addItemBtn">Add Product</button>
                 </div>
                 
-                <div class="external-links">
-                    <a href="https://github.com/yourusername/urvashi-gift-center/add-items" target="_blank">GitHub Add Items Folder</a>
-                    <a href="https://docs.google.com/spreadsheets/d/your-sheet-id/edit" target="_blank">Update Price Sheet</a>
+                <div class="tabs">
+                    <div class="tab active" data-tab="add-product">Add Product</div>
+                    <div class="tab" data-tab="manage-products">Manage Products</div>
                 </div>
-            </div>
-            
-            <!-- Manage Products Tab -->
-            <div class="tab-content" id="manage-products">
-                <div class="admin-products">
-                    <h2 class="page-title">Manage Products</h2>
-                    <table class="product-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Price (₹)</th>
-                                <th>Quantity</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="admin-product-list">
-                            <!-- Products will be loaded here -->
-                        </tbody>
-                    </table>
-                    <div id="no-products-message" class="empty-state" style="display: none;">
-                        <i class="fas fa-box-open"></i>
-                        <h3>No Products Added Yet</h3>
-                        <p>Add products using the "Add Product" tab</p>
+                
+                <!-- Add Product Tab -->
+                <div class="tab-content active" id="add-product">
+                    <div class="form-container">
+                        <h2 class="page-title">Add New Product</h2>
+                        <div class="form-group">
+                            <label for="itemNo">Product ID</label>
+                            <input type="text" id="itemNo" class="form-control" placeholder="Enter product ID">
+                        </div>
+                        <div class="form-group">
+                            <label for="itemName">Product Name</label>
+                            <input type="text" id="itemName" class="form-control" placeholder="Enter product name">
+                        </div>
+                        <div class="form-group">
+                            <label for="itemPrice">Price (₹)</label>
+                            <input type="number" id="itemPrice" class="form-control" placeholder="Enter price" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="itemQty">Quantity</label>
+                            <input type="number" id="itemQty" class="form-control" placeholder="Enter quantity">
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Images (Min 3)</label>
+                            <div class="image-upload">
+                                <div class="upload-box" id="uploadBox1">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Image 1</span>
+                                    <img src="" alt="Uploaded image">
+                                    <input type="file" style="display: none;" class="image-input" data-id="1" accept="image/*">
+                                </div>
+                                <div class="upload-box" id="uploadBox2">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Image 2</span>
+                                    <img src="" alt="Uploaded image">
+                                    <input type="file" style="display: none;" class="image-input" data-id="2" accept="image/*">
+                                </div>
+                                <div class="upload-box" id="uploadBox3">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Image 3</span>
+                                    <img src="" alt="Uploaded image">
+                                    <input type="file" style="display: none;" class="image-input" data-id="3" accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-block" id="addItemBtn">Add Product</button>
+                    </div>
+                    
+                    <div class="external-links">
+                        <a href="https://github.com/yourusername/urvashi-gift-center/add-items" target="_blank">GitHub Add Items Folder</a>
+                        <a href="https://docs.google.com/spreadsheets/d/your-sheet-id/edit" target="_blank">Update Price Sheet</a>
+                    </div>
+                </div>
+                
+                <!-- Manage Products Tab -->
+                <div class="tab-content" id="manage-products">
+                    <div class="admin-products">
+                        <h2 class="page-title">Manage Products</h2>
+                        <table class="product-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Price (₹)</th>
+                                    <th>Quantity</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-product-list">
+                                <!-- Products will be loaded here -->
+                            </tbody>
+                        </table>
+                        <div id="no-products-message" class="empty-state" style="display: none;">
+                            <i class="fas fa-box-open"></i>
+                            <h3>No Products Added Yet</h3>
+                            <p>Add products using the "Add Product" tab</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1025,6 +1086,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Admin password - in a real application, this should be stored securely
+            const ADMIN_PASSWORD = "admin123";
+            
             // Initialize products array (empty initially)
             let products = JSON.parse(localStorage.getItem('urvashiProducts')) || [];
             
@@ -1087,25 +1151,62 @@
                 });
             });
             
-            // Show admin page
+            // Admin login functionality
+            const loginBtn = document.getElementById('login-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const adminLogin = document.getElementById('admin-login');
+            const adminPanelContent = document.getElementById('admin-panel-content');
+            const loginError = document.getElementById('login-error');
+            
+            // Show admin page with login form
             adminLink.addEventListener('click', function(e) {
                 e.preventDefault();
                 publicPage.style.display = 'none';
                 adminPage.style.display = 'block';
-                renderAdminProducts();
+                adminLogin.style.display = 'flex';
+                adminPanelContent.style.display = 'none';
+                loginError.style.display = 'none';
+                document.getElementById('admin-password').value = '';
             });
             
             footerAdminLink.addEventListener('click', function(e) {
                 e.preventDefault();
                 publicPage.style.display = 'none';
                 adminPage.style.display = 'block';
-                renderAdminProducts();
+                adminLogin.style.display = 'flex';
+                adminPanelContent.style.display = 'none';
+                loginError.style.display = 'none';
+                document.getElementById('admin-password').value = '';
+            });
+            
+            // Login button click
+            loginBtn.addEventListener('click', function() {
+                const password = document.getElementById('admin-password').value;
+                
+                if (password === ADMIN_PASSWORD) {
+                    // Successful login
+                    adminLogin.style.display = 'none';
+                    adminPanelContent.style.display = 'block';
+                    renderAdminProducts();
+                } else {
+                    // Show error
+                    loginError.style.display = 'block';
+                }
+            });
+            
+            // Logout button
+            logoutBtn.addEventListener('click', function() {
+                adminLogin.style.display = 'flex';
+                adminPanelContent.style.display = 'none';
+                loginError.style.display = 'none';
+                document.getElementById('admin-password').value = '';
             });
             
             // Back to store from admin
             backToStoreBtn.addEventListener('click', function() {
                 adminPage.style.display = 'none';
                 publicPage.style.display = 'block';
+                navigateTo('home');
             });
             
             // Explore products button
@@ -1234,6 +1335,7 @@
                 
                 // Render the newly added item
                 renderAdminProducts();
+                renderProducts();
             });
             
             // Render products for public page
@@ -1415,9 +1517,9 @@
                     if (index === 0) thumbnail.classList.add('active');
                     
                     thumbnail.addEventListener('click', function() {
-                        modalImg.src = image;
                         document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
                         this.classList.add('active');
+                        modalImg.src = image;
                     });
                     
                     imageGallery.appendChild(thumbnail);
@@ -1572,7 +1674,6 @@
             
             // Initialize the page
             renderProducts();
-            renderAdminProducts();
             updateCartCount();
             renderCart();
         });
