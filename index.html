@@ -669,6 +669,50 @@
             color: var(--dark);
         }
         
+        /* Path Configuration Styles */
+        .path-config {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .path-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .path-input {
+            flex: 1;
+        }
+        
+        .path-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .path-status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .path-status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .path-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
         /* Responsive Styles */
         @media (max-width: 768px) {
             .header-content {
@@ -704,6 +748,11 @@
             
             .data-actions {
                 flex-direction: column;
+            }
+            
+            .path-group {
+                flex-direction: column;
+                align-items: stretch;
             }
         }
         
@@ -929,6 +978,63 @@
             border-radius: 10px;
             margin: 10px 0;
         }
+        
+        /* Automated Upload Styles */
+        .auto-upload-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .upload-status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .upload-progress {
+            width: 100%;
+            height: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .upload-log {
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        
+        .log-entry {
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .log-entry.success {
+            color: var(--success);
+        }
+        
+        .log-entry.error {
+            color: var(--accent);
+        }
     </style>
 </head>
 <body>
@@ -1059,7 +1165,9 @@
                 </div>
                 <div class="copyright">
                     <p>&copy; 2025 Urvashi Gift Center Gurugaram. All rights reserved.</p>
-                                   </div>
+                    <p>GitHub Repository: <a href="https://github.com/yourusername/urvashi-gift-center" style="color: #6a11cb;">https://github.com/yourusername/urvashi-gift-center</a></p>
+                    <p>Google Sheets Price List: <a href="https://docs.google.com/spreadsheets/d/your-sheet-id" style="color: #6a11cb;">View Price List</a></p>
+                </div>
             </div>
         </footer>
     </div>
@@ -1099,6 +1207,8 @@
                 
                 <div class="tabs">
                     <div class="tab active" data-tab="data-management">Data Management</div>
+                    <div class="tab" data-tab="path-config">Path Configuration</div>
+                    <div class="tab" data-tab="auto-upload">Automated Upload</div>
                     <div class="tab" data-tab="add-product">Add Product</div>
                     <div class="tab" data-tab="manage-products">Manage Products</div>
                 </div>
@@ -1138,6 +1248,72 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                         <div id="image-loading" class="image-loading" style="display: none;">
                             <div class="spinner"></div>
                             <p>Loading product images...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Path Configuration Tab -->
+                <div class="tab-content" id="path-config">
+                    <div class="path-config">
+                        <h2 class="page-title">Path Configuration</h2>
+                        <p>Configure the paths for image folders and CSV files to enable automated data loading.</p>
+                        
+                        <div class="form-group">
+                            <label for="image-folder-path">Image Folder Path</label>
+                            <div class="path-group">
+                                <input type="text" id="image-folder-path" class="form-control path-input" placeholder="Enter the path to your image folder (e.g., /images/products/)">
+                                <button class="btn btn-primary" id="test-image-path">Test Path</button>
+                            </div>
+                            <small>This should be the base URL or relative path where product images are stored.</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="csv-file-path">CSV File Path</label>
+                            <div class="path-group">
+                                <input type="text" id="csv-file-path" class="form-control path-input" placeholder="Enter the path to your CSV file (e.g., /data/products.csv)">
+                                <button class="btn btn-primary" id="test-csv-path">Test Path</button>
+                            </div>
+                            <small>This should be the URL or relative path to your product data CSV file.</small>
+                        </div>
+                        
+                        <div class="path-actions">
+                            <button class="btn btn-success" id="save-paths">Save Paths</button>
+                            <button class="btn btn-info" id="load-from-paths">Load Data Automatically</button>
+                        </div>
+                        
+                        <div id="path-status" class="path-status"></div>
+                    </div>
+                </div>
+                
+                <!-- Automated Upload Tab -->
+                <div class="tab-content" id="auto-upload">
+                    <div class="auto-upload-section">
+                        <h2 class="page-title">Automated Data Upload</h2>
+                        <p>Upload images and CSV files to automatically update the product database.</p>
+                        
+                        <div class="form-group">
+                            <label for="image-upload-folder">Upload Image Folder</label>
+                            <input type="file" id="image-upload-folder" class="file-input" webkitdirectory directory multiple>
+                            <label for="image-upload-folder" class="file-label">Select Image Folder</label>
+                            <small>Select a folder containing product images. Images should be named according to product IDs.</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="csv-upload-file">Upload CSV File</label>
+                            <input type="file" id="csv-upload-file" class="file-input" accept=".csv">
+                            <label for="csv-upload-file" class="file-label">Select CSV File</label>
+                            <small>Upload a CSV file containing product data that matches the image names.</small>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-block" id="process-upload">Process Upload</button>
+                        
+                        <div id="upload-status" class="upload-status">
+                            <h4>Upload Progress</h4>
+                            <div class="upload-progress">
+                                <div class="progress-bar" id="progress-bar"></div>
+                            </div>
+                            <div id="progress-text">0%</div>
+                            <div class="upload-log" id="upload-log"></div>
                         </div>
                     </div>
                 </div>
@@ -1227,6 +1403,12 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
             // Initialize products array (empty initially)
             let products = JSON.parse(localStorage.getItem('urvashiProducts')) || [];
             
+            // Initialize path configuration
+            let pathConfig = JSON.parse(localStorage.getItem('urvashiPathConfig')) || {
+                imageFolderPath: '',
+                csvFilePath: ''
+            };
+            
             // Format number as INR
             function formatINR(amount) {
                 return new Intl.NumberFormat('en-IN', {
@@ -1238,6 +1420,11 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
             // Save products to localStorage
             function saveProducts() {
                 localStorage.setItem('urvashiProducts', JSON.stringify(products));
+            }
+            
+            // Save path configuration to localStorage
+            function savePathConfig() {
+                localStorage.setItem('urvashiPathConfig', JSON.stringify(pathConfig));
             }
             
             // Function to convert image URL to base64 for local storage
@@ -1366,6 +1553,10 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                     adminLogin.style.display = 'none';
                     adminPanelContent.style.display = 'block';
                     renderAdminProducts();
+                    
+                    // Load saved path configuration
+                    document.getElementById('image-folder-path').value = pathConfig.imageFolderPath || '';
+                    document.getElementById('csv-file-path').value = pathConfig.csvFilePath || '';
                 } else {
                     // Show error
                     loginError.style.display = 'block';
@@ -2104,7 +2295,7 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                             } catch (error) {
                                 console.error('Error loading images for product:', row['Product Name'] || row['productName'], error);
                                 // Use placeholder images if loading fails
-                                base64Images = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNjY2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZTwvdGV4dD48dGV4dCB4PSIxMDAiIHk9IjEyMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2NjIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+Tm90IEF2YWlsYWJsZTwvdGV4dD48L3N2Zz4='];
+                                base64Images = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNjY2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZTwvdGV4dD48dGV4dCB4PSIxMDAiIHk9IjEyMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2NjIiB0leHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Ob3QgQXZhaWxhYmxlPC90ZXh0Pjwvc3ZnPg=='];
                             }
                         }
                         
@@ -2171,6 +2362,290 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                 document.getElementById('save-to-github').click();
             });
             
+            // Path Configuration Functions
+            
+            // Save path configuration
+            document.getElementById('save-paths').addEventListener('click', function() {
+                const imagePath = document.getElementById('image-folder-path').value;
+                const csvPath = document.getElementById('csv-file-path').value;
+                
+                pathConfig.imageFolderPath = imagePath;
+                pathConfig.csvFilePath = csvPath;
+                savePathConfig();
+                
+                const pathStatus = document.getElementById('path-status');
+                pathStatus.textContent = 'Paths saved successfully!';
+                pathStatus.className = 'path-status success';
+                pathStatus.style.display = 'block';
+                
+                setTimeout(() => {
+                    pathStatus.style.display = 'none';
+                }, 3000);
+            });
+            
+            // Test image path
+            document.getElementById('test-image-path').addEventListener('click', function() {
+                const imagePath = document.getElementById('image-folder-path').value;
+                
+                if (!imagePath) {
+                    alert('Please enter an image folder path');
+                    return;
+                }
+                
+                // Create a test image URL
+                const testImageUrl = imagePath + (imagePath.endsWith('/') ? 'test.jpg' : '/test.jpg');
+                const testImage = new Image();
+                
+                testImage.onload = function() {
+                    alert('Image path is accessible!');
+                };
+                
+                testImage.onerror = function() {
+                    alert('Image path might not be accessible. Check the path and try again.');
+                };
+                
+                testImage.src = testImageUrl;
+            });
+            
+            // Test CSV path
+            document.getElementById('test-csv-path').addEventListener('click', function() {
+                const csvPath = document.getElementById('csv-file-path').value;
+                
+                if (!csvPath) {
+                    alert('Please enter a CSV file path');
+                    return;
+                }
+                
+                // Try to fetch the CSV file
+                fetch(csvPath)
+                    .then(response => {
+                        if (response.ok) {
+                            alert('CSV path is accessible!');
+                        } else {
+                            alert('CSV path might not be accessible. Check the path and try again.');
+                        }
+                    })
+                    .catch(error => {
+                        alert('Error accessing CSV path: ' + error.message);
+                    });
+            });
+            
+            // Load data from configured paths
+            document.getElementById('load-from-paths').addEventListener('click', function() {
+                const imagePath = pathConfig.imageFolderPath;
+                const csvPath = pathConfig.csvFilePath;
+                
+                if (!imagePath || !csvPath) {
+                    alert('Please configure both image and CSV paths first');
+                    return;
+                }
+                
+                // Fetch CSV data
+                fetch(csvPath)
+                    .then(response => response.text())
+                    .then(csvText => {
+                        // Process CSV data
+                        Papa.parse(csvText, {
+                            header: true,
+                            skipEmptyLines: true,
+                            complete: async function(results) {
+                                if (results.errors.length > 0) {
+                                    alert('Error parsing CSV file: ' + results.errors[0].message);
+                                    return;
+                                }
+                                
+                                const importedProducts = [];
+                                
+                                for (const row of results.data) {
+                                    if (row.productId && row.productName) {
+                                        // Construct image URLs using the configured image path
+                                        const imageUrls = [];
+                                        for (let i = 1; i <= 3; i++) {
+                                            const imageUrlField = `imageUrl${i}`;
+                                            if (row[imageUrlField]) {
+                                                // If the image URL is relative, prepend the image path
+                                                let imageUrl = row[imageUrlField];
+                                                if (!imageUrl.startsWith('http') && !imageUrl.startsWith('data:')) {
+                                                    imageUrl = imagePath + (imagePath.endsWith('/') ? '' : '/') + imageUrl;
+                                                }
+                                                imageUrls.push(imageUrl);
+                                            }
+                                        }
+                                        
+                                        // Load images from URLs and convert to base64
+                                        let base64Images = [];
+                                        if (imageUrls.length > 0) {
+                                            try {
+                                                base64Images = await loadImagesFromUrls(imageUrls);
+                                            } catch (error) {
+                                                console.error('Error loading images for product:', row.productName, error);
+                                                // Use placeholder images if loading fails
+                                                base64Images = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNjY2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZTwvdGV4dD48dGV4dCB4PSIxMDAiIHk9IjEyMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2NjIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+Tm90IEF2YWlsYWJsZTwvdGV4dD48L3N2Zz4='];
+                                            }
+                                        }
+                                        
+                                        const product = {
+                                            id: products.length > 0 ? Math.max(...products.map(p => p.id)) + importedProducts.length + 1 : importedProducts.length + 1,
+                                            itemNo: row.productId,
+                                            name: row.productName,
+                                            quantity: parseInt(row.quantity) || 0,
+                                            price: parseFloat(row.price) || 0,
+                                            images: base64Images
+                                        };
+                                        
+                                        importedProducts.push(product);
+                                    }
+                                }
+                                
+                                if (importedProducts.length === 0) {
+                                    alert('No valid products found in the CSV file');
+                                    return;
+                                }
+                                
+                                // Add imported products to existing products
+                                products = [...products, ...importedProducts];
+                                saveProducts();
+                                renderAdminProducts();
+                                renderProducts();
+                                
+                                alert(`Successfully imported ${importedProducts.length} products from configured paths!`);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        alert('Error loading CSV file: ' + error.message);
+                    });
+            });
+            
+            // Automated Upload Functions
+            
+            // Process uploaded files
+            document.getElementById('process-upload').addEventListener('click', function() {
+                const imageFiles = document.getElementById('image-upload-folder').files;
+                const csvFile = document.getElementById('csv-upload-file').files[0];
+                
+                if (imageFiles.length === 0 || !csvFile) {
+                    alert('Please select both an image folder and a CSV file');
+                    return;
+                }
+                
+                // Show upload status
+                const uploadStatus = document.getElementById('upload-status');
+                const progressBar = document.getElementById('progress-bar');
+                const progressText = document.getElementById('progress-text');
+                const uploadLog = document.getElementById('upload-log');
+                
+                uploadStatus.style.display = 'block';
+                progressBar.style.width = '0%';
+                progressText.textContent = '0%';
+                uploadLog.innerHTML = '';
+                
+                // Read CSV file
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const csvText = e.target.result;
+                    
+                    // Process CSV data
+                    Papa.parse(csvText, {
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: async function(results) {
+                            if (results.errors.length > 0) {
+                                addLogEntry('Error parsing CSV file: ' + results.errors[0].message, 'error');
+                                return;
+                            }
+                            
+                            const importedProducts = [];
+                            const totalProducts = results.data.length;
+                            let processedProducts = 0;
+                            
+                            for (const row of results.data) {
+                                if (row.productId && row.productName) {
+                                    // Find matching images for this product
+                                    const productImages = [];
+                                    const productId = row.productId;
+                                    
+                                    // Look for images that match the product ID
+                                    for (let i = 0; i < imageFiles.length; i++) {
+                                        const file = imageFiles[i];
+                                        if (file.name.includes(productId) || 
+                                            file.name.toLowerCase().includes(row.productName.toLowerCase().replace(/\s+/g, '_'))) {
+                                            const imageUrl = URL.createObjectURL(file);
+                                            productImages.push(imageUrl);
+                                        }
+                                    }
+                                    
+                                    // If no specific images found, use the first few images
+                                    if (productImages.length === 0) {
+                                        for (let i = 0; i < Math.min(3, imageFiles.length); i++) {
+                                            const imageUrl = URL.createObjectURL(imageFiles[i]);
+                                            productImages.push(imageUrl);
+                                        }
+                                    }
+                                    
+                                    // Load images and convert to base64
+                                    let base64Images = [];
+                                    if (productImages.length > 0) {
+                                        try {
+                                            base64Images = await loadImagesFromUrls(productImages);
+                                        } catch (error) {
+                                            console.error('Error loading images for product:', row.productName, error);
+                                            // Use placeholder images if loading fails
+                                            base64Images = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNjY2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZTwvdGV4dD48dGV4dCB4PSIxMDAiIHk9IjEyMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2NjIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+Tm90IEF2YWlsYWJsZTwvdGV4dD48L3N2Zz4='];
+                                        }
+                                    }
+                                    
+                                    const product = {
+                                        id: products.length > 0 ? Math.max(...products.map(p => p.id)) + importedProducts.length + 1 : importedProducts.length + 1,
+                                        itemNo: row.productId,
+                                        name: row.productName,
+                                        quantity: parseInt(row.quantity) || 0,
+                                        price: parseFloat(row.price) || 0,
+                                        images: base64Images
+                                    };
+                                    
+                                    importedProducts.push(product);
+                                    addLogEntry(`Processed product: ${row.productName}`, 'success');
+                                    
+                                    // Update progress
+                                    processedProducts++;
+                                    const progress = (processedProducts / totalProducts) * 100;
+                                    progressBar.style.width = progress + '%';
+                                    progressText.textContent = Math.round(progress) + '%';
+                                }
+                            }
+                            
+                            if (importedProducts.length === 0) {
+                                addLogEntry('No valid products found in the CSV file', 'error');
+                                return;
+                            }
+                            
+                            // Add imported products to existing products
+                            products = [...products, ...importedProducts];
+                            saveProducts();
+                            renderAdminProducts();
+                            renderProducts();
+                            
+                            addLogEntry(`Successfully imported ${importedProducts.length} products!`, 'success');
+                            progressBar.style.width = '100%';
+                            progressText.textContent = '100%';
+                        }
+                    });
+                };
+                
+                reader.readAsText(csvFile);
+            });
+            
+            // Add log entry to upload log
+            function addLogEntry(message, type) {
+                const uploadLog = document.getElementById('upload-log');
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log-entry ' + (type || '');
+                logEntry.textContent = new Date().toLocaleTimeString() + ' - ' + message;
+                uploadLog.appendChild(logEntry);
+                uploadLog.scrollTop = uploadLog.scrollHeight;
+            }
+            
             // Initialize the page
             renderProducts();
             updateCartCount();
@@ -2179,4 +2654,3 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
     </script>
 </body>
 </html>
-
