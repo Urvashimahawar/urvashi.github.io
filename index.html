@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Urvashi Gift Center</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -164,6 +166,7 @@
         .admin-actions {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
         
         .btn {
@@ -191,7 +194,17 @@
             color: white;
         }
         
-        .btn-primary:hover, .btn-danger:hover, .btn-success:hover {
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .btn-info {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover, .btn-danger:hover, .btn-success:hover, .btn-warning:hover, .btn-info:hover {
             opacity: 0.9;
             transform: translateY(-2px);
         }
@@ -609,6 +622,53 @@
             display: none;
         }
         
+        /* Data Management Styles */
+        .data-management {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .data-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .file-label:hover {
+            background: var(--secondary);
+        }
+        
+        .csv-template {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .csv-template h4 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
         /* Responsive Styles */
         @media (max-width: 768px) {
             .header-content {
@@ -636,6 +696,14 @@
             .product-table {
                 display: block;
                 overflow-x: auto;
+            }
+            
+            .admin-actions {
+                justify-content: center;
+            }
+            
+            .data-actions {
+                flex-direction: column;
             }
         }
         
@@ -816,18 +884,24 @@
             display: block;
         }
         
-        /* Add some basic styling */
-        .product-form {
-            margin-bottom: 20px;
+        /* Status Messages */
+        .status-message {
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: none;
         }
-        .product-list {
-            list-style: none;
-            padding: 0;
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
-        .product-item {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
+        
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
     </style>
 </head>
@@ -990,20 +1064,57 @@
                         <h1>Urvashi Gift Center - Admin Panel</h1>
                     </div>
                     <div class="admin-actions">
-                        <button class="btn btn-success" id="save-to-github">Save to GitHub</button>
-                        <button class="btn btn-primary" id="update-sheets">Update Google Sheets</button>
+                        <button class="btn btn-success" id="export-csv">Export to CSV</button>
+                        <button class="btn btn-warning" id="import-csv">Import from CSV</button>
+                        <button class="btn btn-info" id="export-excel">Export to Excel</button>
+                        <button class="btn btn-primary" id="save-to-github">Save to GitHub</button>
                         <button class="btn" id="back-to-store">Back to Store</button>
                         <button class="btn btn-danger" id="logout-btn">Logout</button>
                     </div>
                 </div>
                 
                 <div class="tabs">
-                    <div class="tab active" data-tab="add-product">Add Product</div>
+                    <div class="tab active" data-tab="data-management">Data Management</div>
+                    <div class="tab" data-tab="add-product">Add Product</div>
                     <div class="tab" data-tab="manage-products">Manage Products</div>
                 </div>
                 
+                <!-- Data Management Tab -->
+                <div class="tab-content active" id="data-management">
+                    <div class="data-management">
+                        <h2 class="page-title">Data Management</h2>
+                        <p>Import or export product data in CSV or Excel format. You can also save data directly to GitHub.</p>
+                        
+                        <div class="data-actions">
+                            <button class="btn btn-success" id="export-csv-tab">Export to CSV</button>
+                            <button class="btn btn-warning" id="import-csv-tab">Import from CSV</button>
+                            <button class="btn btn-info" id="export-excel-tab">Export to Excel</button>
+                            <button class="btn btn-primary" id="save-to-github-tab">Save to GitHub</button>
+                        </div>
+                        
+                        <input type="file" id="csv-file" class="file-input" accept=".csv">
+                        <label for="csv-file" class="file-label" id="csv-file-label">Choose CSV File</label>
+                        
+                        <input type="file" id="excel-file" class="file-input" accept=".xlsx, .xls">
+                        <label for="excel-file" class="file-label" id="excel-file-label">Choose Excel File</label>
+                        
+                        <div class="csv-template">
+                            <h4>CSV Template Format:</h4>
+                            <p>Your CSV file should have the following columns (in this order):</p>
+                            <p><strong>productId, productName, quantity, price, imageUrl1, imageUrl2, imageUrl3</strong></p>
+                            <p>Example:</p>
+                            <pre>
+P001,Gift Box,50,299.99,https://example.com/image1.jpg,https://example.com/image2.jpg,https://example.com/image3.jpg
+P002,Photo Frame,30,199.99,https://example.com/frame1.jpg,https://example.com/frame2.jpg,https://example.com/frame3.jpg
+                            </pre>
+                        </div>
+                        
+                        <div id="import-status" class="status-message"></div>
+                    </div>
+                </div>
+                
                 <!-- Add Product Tab -->
-                <div class="tab-content active" id="add-product">
+                <div class="tab-content" id="add-product">
                     <div class="form-container">
                         <h2 class="page-title">Add New Product</h2>
                         <div class="form-group">
@@ -1046,11 +1157,6 @@
                             </div>
                         </div>
                         <button class="btn btn-primary btn-block" id="addItemBtn">Add Product</button>
-                    </div>
-                    
-                    <div class="external-links">
-                        <a href="https://github.com/yourusername/urvashi-gift-center/add-items" target="_blank">GitHub Add Items Folder</a>
-                        <a href="https://docs.google.com/spreadsheets/d/your-sheet-id/edit" target="_blank">Update Price Sheet</a>
                     </div>
                 </div>
                 
@@ -1660,16 +1766,255 @@
                 document.getElementById('cartTotal').textContent = formatINR(total);
             }
             
-            // Simulate saving to GitHub
-            document.getElementById('save-to-github').addEventListener('click', function() {
-                // In a real application, this would make an API call to save data
-                alert('Data saved to GitHub successfully! (Simulated)');
+            // Data Management Functions
+            
+            // Export to CSV
+            function exportToCSV() {
+                if (products.length === 0) {
+                    alert('No products to export');
+                    return;
+                }
+                
+                // Create CSV content
+                const headers = ['productId', 'productName', 'quantity', 'price', 'imageUrl1', 'imageUrl2', 'imageUrl3'];
+                const csvContent = products.map(product => {
+                    return [
+                        product.itemNo,
+                        product.name,
+                        product.quantity,
+                        product.price,
+                        product.images[0] || '',
+                        product.images[1] || '',
+                        product.images[2] || ''
+                    ];
+                });
+                
+                // Add headers to the beginning
+                csvContent.unshift(headers);
+                
+                // Convert to CSV string
+                const csvString = csvContent.map(row => 
+                    row.map(field => `"${field}"`).join(',')
+                ).join('\n');
+                
+                // Create download link
+                const blob = new Blob([csvString], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'urvashi_products.csv';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showStatus('Products exported to CSV successfully!', 'success');
+            }
+            
+            // Import from CSV
+            function importFromCSV(file) {
+                Papa.parse(file, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        if (results.errors.length > 0) {
+                            showStatus('Error parsing CSV file: ' + results.errors[0].message, 'error');
+                            return;
+                        }
+                        
+                        const importedProducts = results.data.map((row, index) => {
+                            return {
+                                id: products.length > 0 ? Math.max(...products.map(p => p.id)) + index + 1 : index + 1,
+                                itemNo: row.productId || '',
+                                name: row.productName || '',
+                                quantity: parseInt(row.quantity) || 0,
+                                price: parseFloat(row.price) || 0,
+                                images: [
+                                    row.imageUrl1 || '',
+                                    row.imageUrl2 || '',
+                                    row.imageUrl3 || ''
+                                ].filter(url => url !== '')
+                            };
+                        }).filter(product => product.itemNo && product.name);
+                        
+                        if (importedProducts.length === 0) {
+                            showStatus('No valid products found in the CSV file', 'error');
+                            return;
+                        }
+                        
+                        // Add imported products to existing products
+                        products = [...products, ...importedProducts];
+                        saveProducts();
+                        renderAdminProducts();
+                        renderProducts();
+                        
+                        showStatus(`Successfully imported ${importedProducts.length} products from CSV!`, 'success');
+                    }
+                });
+            }
+            
+            // Export to Excel
+            function exportToExcel() {
+                if (products.length === 0) {
+                    alert('No products to export');
+                    return;
+                }
+                
+                // Prepare data for Excel
+                const excelData = products.map(product => {
+                    return {
+                        'Product ID': product.itemNo,
+                        'Product Name': product.name,
+                        'Quantity': product.quantity,
+                        'Price': product.price,
+                        'Image URL 1': product.images[0] || '',
+                        'Image URL 2': product.images[1] || '',
+                        'Image URL 3': product.images[2] || ''
+                    };
+                });
+                
+                // Create worksheet
+                const worksheet = XLSX.utils.json_to_sheet(excelData);
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, 'Products');
+                
+                // Generate Excel file and trigger download
+                XLSX.writeFile(workbook, 'urvashi_products.xlsx');
+                
+                showStatus('Products exported to Excel successfully!', 'success');
+            }
+            
+            // Show status message
+            function showStatus(message, type) {
+                const statusElement = document.getElementById('import-status');
+                statusElement.textContent = message;
+                statusElement.className = 'status-message';
+                statusElement.classList.add(`status-${type}`);
+                statusElement.style.display = 'block';
+                
+                setTimeout(() => {
+                    statusElement.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Event listeners for data management buttons
+            document.getElementById('export-csv').addEventListener('click', exportToCSV);
+            document.getElementById('export-csv-tab').addEventListener('click', exportToCSV);
+            document.getElementById('export-excel').addEventListener('click', exportToExcel);
+            document.getElementById('export-excel-tab').addEventListener('click', exportToExcel);
+            
+            // Import CSV functionality
+            document.getElementById('import-csv').addEventListener('click', function() {
+                document.getElementById('csv-file').click();
             });
             
-            // Simulate updating Google Sheets
-            document.getElementById('update-sheets').addEventListener('click', function() {
-                // In a real application, this would make an API call to update sheets
-                alert('Google Sheets updated successfully! (Simulated)');
+            document.getElementById('import-csv-tab').addEventListener('click', function() {
+                document.getElementById('csv-file').click();
+            });
+            
+            document.getElementById('csv-file').addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    importFromCSV(e.target.files[0]);
+                }
+            });
+            
+            // Import Excel functionality
+            document.getElementById('excel-file').addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        
+                        // Get the first worksheet
+                        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                        
+                        if (jsonData.length === 0) {
+                            showStatus('No data found in the Excel file', 'error');
+                            return;
+                        }
+                        
+                        const importedProducts = jsonData.map((row, index) => {
+                            return {
+                                id: products.length > 0 ? Math.max(...products.map(p => p.id)) + index + 1 : index + 1,
+                                itemNo: row['Product ID'] || row['productId'] || '',
+                                name: row['Product Name'] || row['productName'] || '',
+                                quantity: parseInt(row['Quantity'] || row['quantity']) || 0,
+                                price: parseFloat(row['Price'] || row['price']) || 0,
+                                images: [
+                                    row['Image URL 1'] || row['imageUrl1'] || '',
+                                    row['Image URL 2'] || row['imageUrl2'] || '',
+                                    row['Image URL 3'] || row['imageUrl3'] || ''
+                                ].filter(url => url !== '')
+                            };
+                        }).filter(product => product.itemNo && product.name);
+                        
+                        if (importedProducts.length === 0) {
+                            showStatus('No valid products found in the Excel file', 'error');
+                            return;
+                        }
+                        
+                        // Add imported products to existing products
+                        products = [...products, ...importedProducts];
+                        saveProducts();
+                        renderAdminProducts();
+                        renderProducts();
+                        
+                        showStatus(`Successfully imported ${importedProducts.length} products from Excel!`, 'success');
+                    };
+                    
+                    reader.readAsArrayBuffer(file);
+                }
+            });
+            
+            // Save to GitHub (simulated)
+            document.getElementById('save-to-github').addEventListener('click', function() {
+                if (products.length === 0) {
+                    alert('No products to save to GitHub');
+                    return;
+                }
+                
+                // In a real application, this would make an API call to save data to GitHub
+                // For this demo, we'll simulate the process
+                
+                // Create CSV content for GitHub
+                const headers = ['productId', 'productName', 'quantity', 'price', 'imageUrl1', 'imageUrl2', 'imageUrl3'];
+                const csvContent = products.map(product => {
+                    return [
+                        product.itemNo,
+                        product.name,
+                        product.quantity,
+                        product.price,
+                        product.images[0] || '',
+                        product.images[1] || '',
+                        product.images[2] || ''
+                    ];
+                });
+                
+                // Add headers to the beginning
+                csvContent.unshift(headers);
+                
+                // Convert to CSV string
+                const csvString = csvContent.map(row => 
+                    row.map(field => `"${field}"`).join(',')
+                ).join('\n');
+                
+                // Simulate saving to GitHub
+                setTimeout(() => {
+                    showStatus('Products saved to GitHub successfully! (Simulated)', 'success');
+                    
+                    // In a real implementation, you would:
+                    // 1. Use the GitHub API to create a commit with the CSV file
+                    // 2. Save images to a separate folder in the repository
+                    // 3. Update the CSV with the correct image URLs
+                }, 1000);
+            });
+            
+            document.getElementById('save-to-github-tab').addEventListener('click', function() {
+                document.getElementById('save-to-github').click();
             });
             
             // Initialize the page
