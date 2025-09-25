@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Urvashi Gift Center</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif;
         }
         
         :root {
@@ -145,7 +144,6 @@
             border-radius: 2px;
         }
         
-        /* Admin Page Styles */
         .admin-panel {
             background: var(--admin-bg);
             min-height: 100vh;
@@ -209,7 +207,6 @@
             transform: translateY(-2px);
         }
         
-        /* Form Styles */
         .form-container {
             background: white;
             border-radius: 10px;
@@ -243,50 +240,16 @@
             outline: none;
         }
         
-        .image-upload {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .upload-box {
-            width: 100px;
-            height: 100px;
-            border: 2px dashed #ddd;
-            border-radius: 8px;
+        .image-url-inputs {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: border 0.3s;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .upload-box:hover {
-            border-color: var(--primary);
-        }
-        
-        .upload-box i {
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-        
-        .upload-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: none;
+            gap: 10px;
         }
         
         .btn-block {
             width: 100%;
         }
         
-        /* Products Grid */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -396,7 +359,6 @@
             background: var(--secondary);
         }
         
-        /* Admin Product List */
         .admin-products {
             background: white;
             border-radius: 10px;
@@ -429,7 +391,6 @@
             border-radius: 5px;
         }
         
-        /* Cart Styles */
         .cart-items {
             background: white;
             border-radius: 10px;
@@ -514,7 +475,6 @@
             background: #00a382;
         }
         
-        /* Footer */
         footer {
             background: var(--dark);
             color: white;
@@ -592,7 +552,6 @@
             border-top: 1px solid #4b6584;
         }
         
-        /* Admin Login Styles */
         .login-container {
             display: flex;
             justify-content: center;
@@ -622,7 +581,6 @@
             display: none;
         }
         
-        /* Data Management Styles */
         .data-management {
             background: white;
             border-radius: 10px;
@@ -669,51 +627,6 @@
             color: var(--dark);
         }
         
-        /* Path Configuration Styles */
-        .path-config {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-        
-        .path-group {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            align-items: center;
-        }
-        
-        .path-input {
-            flex: 1;
-        }
-        
-        .path-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .path-status {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 5px;
-            display: none;
-        }
-        
-        .path-status.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .path-status.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        /* Responsive Styles */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -749,11 +662,6 @@
             .data-actions {
                 flex-direction: column;
             }
-            
-            .path-group {
-                flex-direction: column;
-                align-items: stretch;
-            }
         }
         
         @media (max-width: 480px) {
@@ -784,13 +692,8 @@
                 margin-right: 0;
                 margin-bottom: 15px;
             }
-            
-            .image-upload {
-                justify-content: center;
-            }
         }
         
-        /* Currency specific styles */
         .currency-note {
             text-align: center;
             margin: 10px 0;
@@ -798,7 +701,6 @@
             font-weight: 500;
         }
         
-        /* Image Modal */
         .modal {
             display: none;
             position: fixed;
@@ -867,7 +769,6 @@
             border: 2px solid white;
         }
         
-        /* External links */
         .external-links {
             text-align: center;
             margin: 20px 0;
@@ -888,7 +789,6 @@
             background: var(--secondary);
         }
         
-        /* Empty state */
         .empty-state {
             text-align: center;
             padding: 40px 20px;
@@ -906,7 +806,6 @@
             color: #555;
         }
         
-        /* Tabs for Admin */
         .tabs {
             display: flex;
             margin-bottom: 20px;
@@ -933,7 +832,6 @@
             display: block;
         }
         
-        /* Status Messages */
         .status-message {
             padding: 10px 15px;
             margin: 10px 0;
@@ -953,7 +851,6 @@
             border: 1px solid #f5c6cb;
         }
         
-        /* Loading spinner */
         .spinner {
             border: 4px solid #f3f3f3;
             border-top: 4px solid var(--primary);
@@ -977,63 +874,20 @@
             background: #f8f9fa;
             border-radius: 10px;
             margin: 10px 0;
+            flex-direction: column;
         }
         
-        /* Automated Upload Styles */
-        .auto-upload-section {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-        
-        .upload-status {
-            margin-top: 20px;
+        .github-info {
+            background: #f8f9fa;
             padding: 15px;
             border-radius: 8px;
-            display: none;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary);
         }
         
-        .upload-progress {
-            width: 100%;
-            height: 20px;
-            background: #f0f0f0;
-            border-radius: 10px;
-            margin: 10px 0;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            width: 0%;
-            transition: width 0.3s;
-        }
-        
-        .upload-log {
-            margin-top: 15px;
-            max-height: 200px;
-            overflow-y: auto;
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-            font-family: monospace;
-            font-size: 0.9rem;
-        }
-        
-        .log-entry {
-            margin-bottom: 5px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .log-entry.success {
-            color: var(--success);
-        }
-        
-        .log-entry.error {
-            color: var(--accent);
+        .github-info h4 {
+            margin-bottom: 10px;
+            color: var(--dark);
         }
     </style>
 </head>
@@ -1045,14 +899,14 @@
                 <div class="header-content">
                     <div class="logo">
                         <i class="fas fa-gift"></i>
-                        <h1>Welcome Urvashi Gift Center Gurugaram</h1>
+                        <h1>Urvashi Gift Center Gurugaram</h1>
                     </div>
                     <nav>
                         <ul>
-                            <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
-                            <li><a href="#" class="nav-link" data-page="products">Products</a></li>
-                            <li><a href="#" class="nav-link" data-page="cart">Cart</a></li>
-                            <li><a href="#" id="admin-link">Admin</a></li>
+                            <li><a href="#" class="nav-link active" data-page="home">होम</a></li>
+                            <li><a href="#" class="nav-link" data-page="products">उत्पाद</a></li>
+                            <li><a href="#" class="nav-link" data-page="cart">कार्ट</a></li>
+                            <li><a href="#" id="admin-link">एडमिन</a></li>
                         </ul>
                     </nav>
                     <div class="cart-icon">
@@ -1064,70 +918,63 @@
         </header>
 
         <main class="container">
-            <!-- Home Page -->
             <section id="home" class="page active">
-                <h2 class="page-title">Welcome to Urvashi Gift Center Gurugaram</h2>
-                <div class="currency-note">All prices in Indian Rupees (INR)</div>
+                <h2 class="page-title">Urvashi Gift Center Gurugaram में आपका स्वागत है</h2>
+                <div class="currency-note">सभी कीमतें भारतीय रुपये (₹) में</div>
                 <div class="form-container">
-                    <p>Find the perfect gifts for all occasions at Urvashi Gift Center. We offer a wide range of products for every taste and budget.</p>
-                    <p>Explore our collection, add new items, and manage your shopping cart with ease.</p>
+                    <p>Urvashi Gift Center में सभी अवसरों के लिए उपहार ढूंढें। हम हर स्वाद और बजट के लिए उत्पादों की विस्तृत श्रृंखला प्रदान करते हैं।</p>
+                    <p>हमारे संग्रह का अन्वेषण करें, नए आइटम जोड़ें और अपनी शॉपिंग कार्ट को आसानी से प्रबंधित करें।</p>
                     <div style="text-align: center; margin-top: 20px;">
-                        <button class="btn btn-primary" id="explore-btn">Explore Products</button>
+                        <button class="btn btn-primary" id="explore-btn">उत्पाद देखें</button>
                     </div>
                 </div>
                 
-                <h3 style="margin: 30px 0 20px; text-align: center;">Featured Products</h3>
+                <h3 style="margin: 30px 0 20px; text-align: center;">फीचर्ड उत्पाद</h3>
                 <div class="products-grid" id="featured-products">
-                    <!-- Featured products will be loaded here -->
                     <div class="empty-state">
                         <i class="fas fa-box-open"></i>
-                        <h3>No Products Available</h3>
-                        <p>Products will appear here once added by admin</p>
+                        <h3>कोई उत्पाद उपलब्ध नहीं</h3>
+                        <p>एडमिन द्वारा उत्पाद जोड़े जाने पर यहां दिखाई देंगे</p>
                     </div>
                 </div>
                 
                 <div class="external-links">
-                    <a href="https://github.com/yourusername/urvashi-gift-center" target="_blank">View on GitHub</a>
-                    <a href="https://docs.google.com/spreadsheets/d/your-sheet-id" target="_blank">View Price List</a>
+                    <a href="https://github.com/Urvashimahawar/urvashi.github.io" target="_blank">GitHub पर देखें</a>
+                    <a href="https://github.com/Urvashimahawar/urvashi.github.io/tree/main/images" target="_blank">GitHub Images Folder</a>
                 </div>
             </section>
 
-            <!-- Products Page -->
             <section id="products" class="page">
-                <h2 class="page-title">Our Products</h2>
-                <div class="currency-note">All prices in Indian Rupees (INR)</div>
+                <h2 class="page-title">हमारे उत्पाद</h2>
+                <div class="currency-note">सभी कीमतें भारतीय रुपये (₹) में</div>
                 <div class="products-grid" id="all-products">
-                    <!-- Products will be loaded here -->
                     <div class="empty-state">
                         <i class="fas fa-box-open"></i>
-                        <h3>No Products Available</h3>
-                        <p>Products will appear here once added by admin</p>
+                        <h3>कोई उत्पाद उपलब्ध नहीं</h3>
+                        <p>एडमिन द्वारा उत्पाद जोड़े जाने पर यहां दिखाई देंगे</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Cart Page -->
             <section id="cart" class="page">
-                <h2 class="page-title">Your Shopping Cart</h2>
-                <div class="currency-note">All prices in Indian Rupees (INR)</div>
+                <h2 class="page-title">आपकी शॉपिंग कार्ट</h2>
+                <div class="currency-note">सभी कीमतें भारतीय रुपये (₹) में</div>
                 <div class="cart-items">
-                    <!-- Cart items will be loaded here -->
                     <div class="empty-cart-message" style="text-align: center; padding: 30px;">
                         <i class="fas fa-shopping-cart" style="font-size: 3rem; color: #ddd; margin-bottom: 15px;"></i>
-                        <h3>Your cart is empty</h3>
-                        <p>Add some products to your cart</p>
+                        <h3>आपकी कार्ट खाली है</h3>
+                        <p>अपनी कार्ट में कुछ उत्पाद जोड़ें</p>
                     </div>
                 </div>
                 <div class="cart-total">
-                    Total: ₹<span id="cartTotal">0.00</span>
+                    कुल: ₹<span id="cartTotal">0.00</span>
                 </div>
                 <div style="text-align: right;">
-                    <button class="checkout-btn">Proceed to Checkout</button>
+                    <button class="checkout-btn">चेकआउट करें</button>
                 </div>
             </section>
         </main>
 
-        <!-- Image Modal -->
         <div id="imageModal" class="modal">
             <span class="close">&times;</span>
             <img class="modal-content" id="modalImage">
@@ -1139,20 +986,20 @@
                 <div class="footer-content">
                     <div class="footer-section">
                         <h3>Urvashi Gift Center</h3>
-                        <p>Your one-stop destination for all gift items and special occasion presents.</p>
+                        <p>सभी उपहार आइटमों और विशेष अवसरों के लिए उपहारों के लिए आपकी एकमात्र पसंद।</p>
                     </div>
                     <div class="footer-section">
-                        <h3>Quick Links</h3>
+                        <h3>त्वरित लिंक</h3>
                         <ul class="footer-links">
-                            <li><a href="#" class="footer-nav" data-page="home">Home</a></li>
-                            <li><a href="#" class="footer-nav" data-page="products">Products</a></li>
-                            <li><a href="#" class="footer-nav" data-page="cart">Cart</a></li>
-                            <li><a href="#" id="footer-admin-link">Admin</a></li>
+                            <li><a href="#" class="footer-nav" data-page="home">होम</a></li>
+                            <li><a href="#" class="footer-nav" data-page="products">उत्पाद</a></li>
+                            <li><a href="#" class="footer-nav" data-page="cart">कार्ट</a></li>
+                            <li><a href="#" id="footer-admin-link">एडमिन</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
-                        <h3>Contact Us</h3>
-                        <p><i class="fas fa-map-marker-alt"></i> Sector 05, Gurugaram, India</p>
+                        <h3>संपर्क करें</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> सेक्टर 05, गुरुग्राम, भारत</p>
                         <p><i class="fas fa-phone"></i> +91 12412732</p>
                         <p><i class="fas fa-envelope"></i> info@urvashigift@gmail.com</p>
                         <div class="social-links">
@@ -1164,9 +1011,8 @@
                     </div>
                 </div>
                 <div class="copyright">
-                    <p>&copy; 2025 Urvashi Gift Center Gurugaram. All rights reserved.</p>
-                    <p>GitHub Repository: <a href="https://github.com/yourusername/urvashi-gift-center" style="color: #6a11cb;">https://github.com/yourusername/urvashi-gift-center</a></p>
-                    <p>Google Sheets Price List: <a href="https://docs.google.com/spreadsheets/d/your-sheet-id" style="color: #6a11cb;">View Price List</a></p>
+                    <p>&copy; 2025 Urvashi Gift Center Gurugaram. सर्वाधिकार सुरक्षित।</p>
+                    <p>GitHub Repository: <a href="https://github.com/Urvashimahawar/urvashi.github.io" style="color: #6a11cb;">https://github.com/Urvashimahawar/urvashi.github.io</a></p>
                 </div>
             </div>
         </footer>
@@ -1175,219 +1021,135 @@
     <!-- Admin Page -->
     <div id="admin-page" class="admin-panel" style="display: none;">
         <div class="container">
-            <!-- Admin Login Form -->
             <div id="admin-login" class="login-container">
                 <div class="login-form">
-                    <h2 class="login-title">Admin Login</h2>
+                    <h2 class="login-title">एडमिन लॉगिन</h2>
                     <div class="form-group">
-                        <label for="admin-password">Password</label>
-                        <input type="password" id="admin-password" class="form-control" placeholder="Enter admin password">
+                        <label for="admin-password">पासवर्ड</label>
+                        <input type="password" id="admin-password" class="form-control" placeholder="एडमिन पासवर्ड दर्ज करें">
                     </div>
-                    <button class="btn btn-primary btn-block" id="login-btn">Login</button>
-                    <div id="login-error" class="login-error">Incorrect password. Please try again.</div>
+                    <button class="btn btn-primary btn-block" id="login-btn">लॉगिन</button>
+                    <div id="login-error" class="login-error">गलत पासवर्ड। कृपया पुनः प्रयास करें।</div>
                 </div>
             </div>
             
-            <!-- Admin Panel (hidden until login) -->
             <div id="admin-panel-content" style="display: none;">
                 <div class="admin-header">
                     <div class="logo">
                         <i class="fas fa-gift"></i>
-                        <h1>Urvashi Gift Center - Admin Panel</h1>
+                        <h1>Urvashi Gift Center - एडमिन पैनल</h1>
                     </div>
                     <div class="admin-actions">
-                        <button class="btn btn-success" id="export-csv">Export to CSV</button>
-                        <button class="btn btn-warning" id="import-csv">Import from CSV</button>
-                        <button class="btn btn-info" id="export-excel">Export to Excel</button>
-                        <button class="btn btn-primary" id="save-to-github">Save to GitHub</button>
-                        <button class="btn" id="back-to-store">Back to Store</button>
-                        <button class="btn btn-danger" id="logout-btn">Logout</button>
+                        <button class="btn btn-success" id="export-csv">CSV एक्सपोर्ट</button>
+                        <button class="btn btn-warning" id="import-csv">CSV इम्पोर्ट</button>
+                        <button class="btn btn-primary" id="save-to-github">GitHub से लोड करें</button>
+                        <button class="btn" id="back-to-store">स्टोर पर वापस</button>
+                        <button class="btn btn-danger" id="logout-btn">लॉगआउट</button>
                     </div>
                 </div>
                 
                 <div class="tabs">
-                    <div class="tab active" data-tab="data-management">Data Management</div>
-                    <div class="tab" data-tab="path-config">Path Configuration</div>
-                    <div class="tab" data-tab="auto-upload">Automated Upload</div>
-                    <div class="tab" data-tab="add-product">Add Product</div>
-                    <div class="tab" data-tab="manage-products">Manage Products</div>
+                    <div class="tab active" data-tab="data-management">डेटा प्रबंधन</div>
+                    <div class="tab" data-tab="add-product">उत्पाद जोड़ें</div>
+                    <div class="tab" data-tab="manage-products">उत्पाद प्रबंधन</div>
                 </div>
                 
-                <!-- Data Management Tab -->
                 <div class="tab-content active" id="data-management">
                     <div class="data-management">
-                        <h2 class="page-title">Data Management</h2>
-                        <p>Import or export product data in CSV or Excel format. You can also save data directly to GitHub.</p>
+                        <h2 class="page-title">डेटा प्रबंधन</h2>
+                        <p>CSV फ़ाइलों से उत्पाद डेटा आयात करें या GitHub से सीधे लोड करें।</p>
+                        
+                        <div class="github-info">
+                            <h4>GitHub से Images लोड करने के लिए:</h4>
+                            <p>आपके GitHub repository में images/ folder में उत्पाद images और CSV files हैं।</p>
+                            <p>CSV फ़ाइल में image URLs इस फॉर्मेट में हों:</p>
+                            <ul>
+                                <li><strong>पूर्ण GitHub URL:</strong> https://raw.githubusercontent.com/Urvashimahawar/urvashi.github.io/main/images/earrings1.jpg</li>
+                                <li><strong>रिलेटिव पाथ:</strong> earrings1.jpg (सिर्फ फ़ाइल नाम)</li>
+                            </ul>
+                        </div>
                         
                         <div class="data-actions">
-                            <button class="btn btn-success" id="export-csv-tab">Export to CSV</button>
-                            <button class="btn btn-warning" id="import-csv-tab">Import from CSV</button>
-                            <button class="btn btn-info" id="export-excel-tab">Export to Excel</button>
-                            <button class="btn btn-primary" id="save-to-github-tab">Save to GitHub</button>
+                            <button class="btn btn-success" id="export-csv-tab">CSV एक्सपोर्ट</button>
+                            <button class="btn btn-warning" id="import-csv-tab">CSV इम्पोर्ट</button>
+                            <button class="btn btn-primary" id="load-from-github">GitHub से लोड करें</button>
                         </div>
                         
                         <input type="file" id="csv-file" class="file-input" accept=".csv">
-                        <label for="csv-file" class="file-label" id="csv-file-label">Choose CSV File</label>
-                        
-                        <input type="file" id="excel-file" class="file-input" accept=".xlsx, .xls">
-                        <label for="excel-file" class="file-label" id="excel-file-label">Choose Excel File</label>
+                        <label for="csv-file" class="file-label" id="csv-file-label">CSV फ़ाइल चुनें</label>
                         
                         <div class="csv-template">
-                            <h4>CSV Template Format:</h4>
-                            <p>Your CSV file should have the following columns (in this order):</p>
+                            <h4>CSV फॉर्मेट:</h4>
+                            <p>आपकी CSV फ़ाइल में निम्न कॉलम होने चाहिए (इसी क्रम में):</p>
                             <p><strong>productId, productName, quantity, price, imageUrl1, imageUrl2, imageUrl3</strong></p>
-                            <p>Example:</p>
+                            <p>उदाहरण:</p>
                             <pre>
-P001,Beautiful Earrings Size-1,50,599.99,https://example.com/earrings1-1.jpg,https://example.com/earrings1-2.jpg,https://example.com/earrings1-3.jpg
-P002,Beautiful Earrings Size-2,30,149.50,https://example.com/earrings2-1.jpg,https://example.com/earrings2-2.jpg,https://example.com/earrings2-3.jpg
-P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,https://example.com/earrings3-2.jpg,https://example.com/earrings3-3.jpg
+P001,सुंदर झुमके साइज-1,50,599.99,earrings1.jpg,earrings2.jpg,earrings3.jpg
+P002,सुंदर झुमके साइज-2,30,149.50,https://raw.githubusercontent.com/Urvashimahawar/urvashi.github.io/main/images/earrings4.jpg,earrings5.jpg,earrings6.jpg
                             </pre>
                         </div>
                         
                         <div id="import-status" class="status-message"></div>
                         <div id="image-loading" class="image-loading" style="display: none;">
                             <div class="spinner"></div>
-                            <p>Loading product images...</p>
+                            <p>उत्पाद images लोड हो रही हैं...</p>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Path Configuration Tab -->
-                <div class="tab-content" id="path-config">
-                    <div class="path-config">
-                        <h2 class="page-title">Path Configuration</h2>
-                        <p>Configure the paths for image folders and CSV files to enable automated data loading.</p>
-                        
-                        <div class="form-group">
-                            <label for="image-folder-path">Image Folder Path</label>
-                            <div class="path-group">
-                                <input type="text" id="image-folder-path" class="form-control path-input" placeholder="Enter the path to your image folder (e.g., /images/products/)">
-                                <button class="btn btn-primary" id="test-image-path">Test Path</button>
-                            </div>
-                            <small>This should be the base URL or relative path where product images are stored.</small>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="csv-file-path">CSV File Path</label>
-                            <div class="path-group">
-                                <input type="text" id="csv-file-path" class="form-control path-input" placeholder="Enter the path to your CSV file (e.g., /data/products.csv)">
-                                <button class="btn btn-primary" id="test-csv-path">Test Path</button>
-                            </div>
-                            <small>This should be the URL or relative path to your product data CSV file.</small>
-                        </div>
-                        
-                        <div class="path-actions">
-                            <button class="btn btn-success" id="save-paths">Save Paths</button>
-                            <button class="btn btn-info" id="load-from-paths">Load Data Automatically</button>
-                        </div>
-                        
-                        <div id="path-status" class="path-status"></div>
-                    </div>
-                </div>
-                
-                <!-- Automated Upload Tab -->
-                <div class="tab-content" id="auto-upload">
-                    <div class="auto-upload-section">
-                        <h2 class="page-title">Automated Data Upload</h2>
-                        <p>Upload images and CSV files to automatically update the product database.</p>
-                        
-                        <div class="form-group">
-                            <label for="image-upload-folder">Upload Image Folder</label>
-                            <input type="file" id="image-upload-folder" class="file-input" webkitdirectory directory multiple>
-                            <label for="image-upload-folder" class="file-label">Select Image Folder</label>
-                            <small>Select a folder containing product images. Images should be named according to product IDs.</small>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="csv-upload-file">Upload CSV File</label>
-                            <input type="file" id="csv-upload-file" class="file-input" accept=".csv">
-                            <label for="csv-upload-file" class="file-label">Select CSV File</label>
-                            <small>Upload a CSV file containing product data that matches the image names.</small>
-                        </div>
-                        
-                        <button class="btn btn-primary btn-block" id="process-upload">Process Upload</button>
-                        
-                        <div id="upload-status" class="upload-status">
-                            <h4>Upload Progress</h4>
-                            <div class="upload-progress">
-                                <div class="progress-bar" id="progress-bar"></div>
-                            </div>
-                            <div id="progress-text">0%</div>
-                            <div class="upload-log" id="upload-log"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Add Product Tab -->
                 <div class="tab-content" id="add-product">
                     <div class="form-container">
-                        <h2 class="page-title">Add New Product</h2>
+                        <h2 class="page-title">नया उत्पाद जोड़ें</h2>
                         <div class="form-group">
-                            <label for="itemNo">Product ID</label>
-                            <input type="text" id="itemNo" class="form-control" placeholder="Enter product ID">
+                            <label for="itemNo">उत्पाद ID</label>
+                            <input type="text" id="itemNo" class="form-control" placeholder="उत्पाद ID दर्ज करें">
                         </div>
                         <div class="form-group">
-                            <label for="itemName">Product Name</label>
-                            <input type="text" id="itemName" class="form-control" placeholder="Enter product name">
+                            <label for="itemName">उत्पाद नाम</label>
+                            <input type="text" id="itemName" class="form-control" placeholder="उत्पाद नाम दर्ज करें">
                         </div>
                         <div class="form-group">
-                            <label for="itemPrice">Price (₹)</label>
-                            <input type="number" id="itemPrice" class="form-control" placeholder="Enter price" step="0.01">
+                            <label for="itemPrice">कीमत (₹)</label>
+                            <input type="number" id="itemPrice" class="form-control" placeholder="कीमत दर्ज करें" step="0.01">
                         </div>
                         <div class="form-group">
-                            <label for="itemQty">Quantity</label>
-                            <input type="number" id="itemQty" class="form-control" placeholder="Enter quantity">
+                            <label for="itemQty">मात्रा</label>
+                            <input type="number" id="itemQty" class="form-control" placeholder="मात्रा दर्ज करें">
                         </div>
                         <div class="form-group">
-                            <label>Upload Images (Min 3)</label>
-                            <div class="image-upload">
-                                <div class="upload-box" id="uploadBox1">
-                                    <i class="fas fa-plus"></i>
-                                    <span>Image 1</span>
-                                    <img src="" alt="Uploaded image">
-                                    <input type="file" style="display: none;" class="image-input" data-id="1" accept="image/*">
-                                </div>
-                                <div class="upload-box" id="uploadBox2">
-                                    <i class="fas fa-plus"></i>
-                                    <span>Image 2</span>
-                                    <img src="" alt="Uploaded image">
-                                    <input type="file" style="display: none;" class="image-input" data-id="2" accept="image/*">
-                                </div>
-                                <div class="upload-box" id="uploadBox3">
-                                    <i class="fas fa-plus"></i>
-                                    <span>Image 3</span>
-                                    <img src="" alt="Uploaded image">
-                                    <input type="file" style="display: none;" class="image-input" data-id="3" accept="image/*">
-                                </div>
+                            <label>Image URLs (GitHub से)</label>
+                            <div class="image-url-inputs">
+                                <input type="text" id="imageUrl1" class="form-control" placeholder="Image 1 URL (earrings1.jpg या पूर्ण URL)">
+                                <input type="text" id="imageUrl2" class="form-control" placeholder="Image 2 URL">
+                                <input type="text" id="imageUrl3" class="form-control" placeholder="Image 3 URL">
                             </div>
+                            <small>आप रिलेटिव पाथ (जैसे earrings1.jpg) या पूर्ण GitHub URL डाल सकते हैं</small>
                         </div>
-                        <button class="btn btn-primary btn-block" id="addItemBtn">Add Product</button>
+                        <button class="btn btn-primary btn-block" id="addItemBtn">उत्पाद जोड़ें</button>
                     </div>
                 </div>
                 
-                <!-- Manage Products Tab -->
                 <div class="tab-content" id="manage-products">
                     <div class="admin-products">
-                        <h2 class="page-title">Manage Products</h2>
+                        <h2 class="page-title">उत्पाद प्रबंधन</h2>
                         <table class="product-table">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Image</th>
-                                    <th>Name</th>
-                                    <th>Price (₹)</th>
-                                    <th>Quantity</th>
-                                    <th>Actions</th>
+                                    <th>इमेज</th>
+                                    <th>नाम</th>
+                                    <th>कीमत (₹)</th>
+                                    <th>मात्रा</th>
+                                    <th>क्रियाएं</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-product-list">
-                                <!-- Products will be loaded here -->
                             </tbody>
                         </table>
                         <div id="no-products-message" class="empty-state" style="display: none;">
                             <i class="fas fa-box-open"></i>
-                            <h3>No Products Added Yet</h3>
-                            <p>Add products using the "Add Product" tab</p>
+                            <h3>अभी तक कोई उत्पाद नहीं जोड़ा गया</h3>
+                            <p>"उत्पाद जोड़ें" टैब का उपयोग करके उत्पाद जोड़ें</p>
                         </div>
                     </div>
                 </div>
@@ -1397,17 +1159,17 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Admin password - in a real application, this should be stored securely
+            // Admin password
             const ADMIN_PASSWORD = "admin123";
             
-            // Initialize products array (empty initially)
-            let products = JSON.parse(localStorage.getItem('urvashiProducts')) || [];
+            // GitHub repository information
+            const GITHUB_REPO = "Urvashimahawar/urvashi.github.io";
+            const GITHUB_BRANCH = "main";
+            const GITHUB_IMAGE_FOLDER = "images";
+            const GITHUB_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/${GITHUB_IMAGE_FOLDER}/`;
             
-            // Initialize path configuration
-            let pathConfig = JSON.parse(localStorage.getItem('urvashiPathConfig')) || {
-                imageFolderPath: '',
-                csvFilePath: ''
-            };
+            // Initialize products array
+            let products = JSON.parse(localStorage.getItem('urvashiProducts')) || [];
             
             // Format number as INR
             function formatINR(amount) {
@@ -1422,55 +1184,63 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                 localStorage.setItem('urvashiProducts', JSON.stringify(products));
             }
             
-            // Save path configuration to localStorage
-            function savePathConfig() {
-                localStorage.setItem('urvashiPathConfig', JSON.stringify(pathConfig));
-            }
-            
-            // Function to convert image URL to base64 for local storage
-            function urlToBase64(url) {
-                return new Promise((resolve, reject) => {
-                    const img = new Image();
-                    img.crossOrigin = 'Anonymous';
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        ctx.drawImage(img, 0, 0);
-                        resolve(canvas.toDataURL('image/jpeg'));
-                    };
-                    img.onerror = reject;
-                    img.src = url;
-                });
-            }
-            
-            // Function to load images from URLs and convert to base64
-            async function loadImagesFromUrls(imageUrls) {
-                const base64Images = [];
+            // Function to convert image URL to GitHub raw URL
+            function convertToGitHubUrl(url) {
+                if (!url) return '';
                 
-                for (const url of imageUrls) {
-                    if (url && url.trim() !== '') {
-                        try {
-                            // Check if URL is already a base64 string
-                            if (url.startsWith('data:image')) {
-                                base64Images.push(url);
-                            } else {
-                                const base64 = await urlToBase64(url);
-                                base64Images.push(base64);
-                            }
-                        } catch (error) {
-                            console.error('Error loading image:', url, error);
-                            // Use a placeholder image if loading fails
-                            base64Images.push('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNjY2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZTwvdGV4dD48dGV4dCB4PSIxMDAiIHk9IjEyMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2NjIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+Tm90IEF2YWlsYWJsZTwvdGV4dD48L3N2Zz4=');
+                // If it's already a full URL, return as is
+                if (url.startsWith('http')) {
+                    // Convert blob URL to raw URL if needed
+                    if (url.includes('github.com') && url.includes('/blob/')) {
+                        return url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+                    }
+                    return url;
+                }
+                
+                // If it's a relative path, convert to full GitHub raw URL
+                return GITHUB_BASE_URL + url;
+            }
+            
+            // Function to load sample CSV from GitHub
+            async function loadCSVFromGitHub(csvFileName) {
+                const csvUrl = `https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/${GITHUB_IMAGE_FOLDER}/${csvFileName}`;
+                
+                try {
+                    const response = await fetch(csvUrl);
+                    if (!response.ok) {
+                        throw new Error('CSV फ़ाइल लोड नहीं हो सकी');
+                    }
+                    
+                    const csvText = await response.text();
+                    return csvText;
+                } catch (error) {
+                    console.error('Error loading CSV:', error);
+                    return null;
+                }
+            }
+            
+            // Function to get available CSV files from GitHub
+            async function getAvailableCSVFiles() {
+                // This is a simplified approach - in a real scenario, you'd use GitHub API
+                // For now, we'll try to load a predefined list of possible CSV files
+                const possibleFiles = ['products.csv', 'sample-products.csv', 'urvashi-products.csv'];
+                const availableFiles = [];
+                
+                for (const fileName of possibleFiles) {
+                    try {
+                        const response = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/${GITHUB_IMAGE_FOLDER}/${fileName}`);
+                        if (response.ok) {
+                            availableFiles.push(fileName);
                         }
+                    } catch (error) {
+                        // File doesn't exist or couldn't be loaded
                     }
                 }
                 
-                return base64Images;
+                return availableFiles;
             }
             
-            // Navigation functionality for public page
+            // Navigation functionality
             const navLinks = document.querySelectorAll('.nav-link');
             const footerNavLinks = document.querySelectorAll('.footer-nav');
             const pages = document.querySelectorAll('.page');
@@ -1481,20 +1251,16 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
             const adminPage = document.getElementById('admin-page');
             
             function navigateTo(pageId) {
-                // Update active nav link
                 navLinks.forEach(navLink => navLink.classList.remove('active'));
                 document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
                 
-                // Show the selected page
                 pages.forEach(page => page.classList.remove('active'));
                 document.getElementById(pageId).classList.add('active');
                 
-                // If going to products page, render products
                 if (pageId === 'products' || pageId === 'home') {
                     renderProducts();
                 }
                 
-                // If going to cart page, render cart
                 if (pageId === 'cart') {
                     renderCart();
                 }
@@ -1523,7 +1289,6 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
             const adminPanelContent = document.getElementById('admin-panel-content');
             const loginError = document.getElementById('login-error');
             
-            // Show admin page with login form
             adminLink.addEventListener('click', function(e) {
                 e.preventDefault();
                 publicPage.style.display = 'none';
@@ -1544,26 +1309,18 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                 document.getElementById('admin-password').value = '';
             });
             
-            // Login button click
             loginBtn.addEventListener('click', function() {
                 const password = document.getElementById('admin-password').value;
                 
                 if (password === ADMIN_PASSWORD) {
-                    // Successful login
                     adminLogin.style.display = 'none';
                     adminPanelContent.style.display = 'block';
                     renderAdminProducts();
-                    
-                    // Load saved path configuration
-                    document.getElementById('image-folder-path').value = pathConfig.imageFolderPath || '';
-                    document.getElementById('csv-file-path').value = pathConfig.csvFilePath || '';
                 } else {
-                    // Show error
                     loginError.style.display = 'block';
                 }
             });
             
-            // Logout button
             logoutBtn.addEventListener('click', function() {
                 adminLogin.style.display = 'flex';
                 adminPanelContent.style.display = 'none';
@@ -1571,19 +1328,16 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                 document.getElementById('admin-password').value = '';
             });
             
-            // Back to store from admin
             backToStoreBtn.addEventListener('click', function() {
                 adminPage.style.display = 'none';
                 publicPage.style.display = 'block';
                 navigateTo('home');
             });
             
-            // Explore products button
             document.getElementById('explore-btn').addEventListener('click', function() {
                 navigateTo('products');
             });
             
-            // Cart icon click
             document.querySelector('.cart-icon').addEventListener('click', function() {
                 navigateTo('cart');
             });
@@ -1596,43 +1350,11 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                 tab.addEventListener('click', function() {
                     const tabId = this.getAttribute('data-tab');
                     
-                    // Update active tab
                     tabs.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // Show active tab content
                     tabContents.forEach(content => content.classList.remove('active'));
                     document.getElementById(tabId).classList.add('active');
-                });
-            });
-            
-            // Image upload functionality
-            const uploadBoxes = document.querySelectorAll('.upload-box');
-            const imageInputs = document.querySelectorAll('.image-input');
-            
-            uploadBoxes.forEach(box => {
-                box.addEventListener('click', function() {
-                    const id = this.id.replace('uploadBox', '');
-                    document.querySelector(`.image-input[data-id="${id}"]`).click();
-                });
-            });
-            
-            imageInputs.forEach(input => {
-                input.addEventListener('change', function() {
-                    const id = this.getAttribute('data-id');
-                    const file = this.files[0];
-                    
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const uploadBox = document.getElementById(`uploadBox${id}`);
-                            uploadBox.querySelector('img').src = e.target.result;
-                            uploadBox.querySelector('img').style.display = 'block';
-                            uploadBox.querySelector('i').style.display = 'none';
-                            uploadBox.querySelector('span').style.display = 'none';
-                        }
-                        reader.readAsDataURL(file);
-                    }
                 });
             });
             
@@ -1642,20 +1364,12 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                 const itemName = document.getElementById('itemName').value;
                 const itemPrice = document.getElementById('itemPrice').value;
                 const itemQty = document.getElementById('itemQty').value;
+                const imageUrl1 = document.getElementById('imageUrl1').value;
+                const imageUrl2 = document.getElementById('imageUrl2').value;
+                const imageUrl3 = document.getElementById('imageUrl3').value;
                 
                 if (!itemNo || !itemName || !itemPrice || !itemQty) {
-                    alert('Please fill all fields');
-                    return;
-                }
-                
-                // Check if at least one image is uploaded
-                let hasImage = false;
-                document.querySelectorAll('.upload-box img').forEach(img => {
-                    if (img.style.display === 'block') hasImage = true;
-                });
-                
-                if (!hasImage) {
-                    alert('Please upload at least one image');
+                    alert('कृपया सभी फ़ील्ड भरें');
                     return;
                 }
                 
@@ -1669,38 +1383,26 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                     quantity: parseInt(itemQty)
                 };
                 
-                // Get uploaded images
-                document.querySelectorAll('.upload-box img').forEach(img => {
-                    if (img.style.display === 'block') {
-                        newProduct.images.push(img.src);
-                    }
-                });
+                // Add image URLs (convert to GitHub URLs if needed)
+                if (imageUrl1) newProduct.images.push(convertToGitHubUrl(imageUrl1));
+                if (imageUrl2) newProduct.images.push(convertToGitHubUrl(imageUrl2));
+                if (imageUrl3) newProduct.images.push(convertToGitHubUrl(imageUrl3));
                 
                 // Add to products array
                 products.push(newProduct);
                 saveProducts();
                 
                 // Show success message
-                alert('Product added successfully!');
+                alert('उत्पाद सफलतापूर्वक जोड़ा गया!');
                 
                 // Clear form
                 document.getElementById('itemNo').value = '';
                 document.getElementById('itemName').value = '';
                 document.getElementById('itemPrice').value = '';
                 document.getElementById('itemQty').value = '';
-                
-                document.querySelectorAll('.upload-box img').forEach(img => {
-                    img.src = '';
-                    img.style.display = 'none';
-                });
-                
-                document.querySelectorAll('.upload-box i').forEach(icon => {
-                    icon.style.display = 'block';
-                });
-                
-                document.querySelectorAll('.upload-box span').forEach(span => {
-                    span.style.display = 'block';
-                });
+                document.getElementById('imageUrl1').value = '';
+                document.getElementById('imageUrl2').value = '';
+                document.getElementById('imageUrl3').value = '';
                 
                 // Render the newly added item
                 renderAdminProducts();
@@ -1712,25 +1414,23 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                 const productsGrid = document.querySelector('#products .products-grid');
                 const homeProductsGrid = document.querySelector('#home .products-grid');
                 
-                // Clear existing content
                 productsGrid.innerHTML = '';
                 homeProductsGrid.innerHTML = '';
                 
                 if (products.length === 0) {
-                    // Show empty state
                     productsGrid.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-box-open"></i>
-                            <h3>No Products Available</h3>
-                            <p>Products will appear here once added by admin</p>
+                            <h3>कोई उत्पाद उपलब्ध नहीं</h3>
+                            <p>एडमिन द्वारा उत्पाद जोड़े जाने पर यहां दिखाई देंगे</p>
                         </div>
                     `;
                     
                     homeProductsGrid.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-box-open"></i>
-                            <h3>No Products Available</h3>
-                            <p>Products will appear here once added by admin</p>
+                            <h3>कोई उत्पाद उपलब्ध नहीं</h3>
+                            <p>एडमिन द्वारा उत्पाद जोड़े जाने पर यहां दिखाई देंगे</p>
                         </div>
                     `;
                     return;
@@ -1755,7 +1455,6 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card';
                 
-                // Check if product has images
                 const productImage = product.images && product.images.length > 0 ? 
                     product.images[0] : 
                     'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNjY2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
@@ -1773,12 +1472,11 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                                 <input type="text" class="qty-input" value="1" readonly>
                                 <button class="qty-btn plus">+</button>
                             </div>
-                            <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
+                            <button class="add-to-cart" data-id="${product.id}">कार्ट में जोड़ें</button>
                         </div>
                     </div>
                 `;
                 
-                // Plus minus buttons
                 const plusBtn = productCard.querySelector('.plus');
                 const minusBtn = productCard.querySelector('.minus');
                 const qtyInput = productCard.querySelector('.qty-input');
@@ -1793,16 +1491,14 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                     }
                 });
                 
-                // Add to cart button
                 const addToCartBtn = productCard.querySelector('.add-to-cart');
                 addToCartBtn.addEventListener('click', function() {
                     const id = parseInt(this.getAttribute('data-id'));
                     const quantity = parseInt(qtyInput.value);
                     addToCart(id, quantity);
                     
-                    // Show confirmation
                     const confirmation = document.createElement('div');
-                    confirmation.textContent = 'Added to cart!';
+                    confirmation.textContent = 'कार्ट में जोड़ा गया!';
                     confirmation.style.position = 'fixed';
                     confirmation.style.bottom = '20px';
                     confirmation.style.right = '20px';
@@ -1818,7 +1514,6 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                     }, 2000);
                 });
                 
-                // Image click to open modal
                 const productImageElem = productCard.querySelector('.product-image');
                 productImageElem.addEventListener('click', function() {
                     openImageModal(product.images, product.name);
@@ -1854,18 +1549,17 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                         <td>₹ ${formatINR(product.price)}</td>
                         <td>${product.quantity}</td>
                         <td>
-                            <button class="btn btn-danger delete-product" data-id="${product.id}">Delete</button>
+                            <button class="btn btn-danger delete-product" data-id="${product.id}">हटाएं</button>
                         </td>
                     `;
                     
                     adminProductList.appendChild(row);
                 });
                 
-                // Add event listeners to delete buttons
                 document.querySelectorAll('.delete-product').forEach(button => {
                     button.addEventListener('click', function() {
                         const id = parseInt(this.getAttribute('data-id'));
-                        if (confirm('Are you sure you want to delete this product?')) {
+                        if (confirm('क्या आप वाकई इस उत्पाद को हटाना चाहते हैं?')) {
                             products = products.filter(p => p.id !== id);
                             saveProducts();
                             renderAdminProducts();
@@ -1884,7 +1578,6 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
             function openImageModal(images, title) {
                 modal.style.display = 'block';
                 
-                // Check if there are images
                 if (images && images.length > 0) {
                     modalImg.src = images[0];
                     modalImg.alt = title;
@@ -1893,7 +1586,6 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                     modalImg.alt = 'No images available';
                 }
                 
-                // Create thumbnails
                 imageGallery.innerHTML = '';
                 
                 if (images && images.length > 0) {
@@ -1925,10 +1617,9 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                 }
             });
             
-            // Cart array
+            // Cart functionality
             let cart = JSON.parse(localStorage.getItem('urvashiCart')) || [];
             
-            // Add to cart function
             function addToCart(productId, quantity) {
                 const product = products.find(p => p.id === productId);
                 
@@ -1947,25 +1638,21 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                         });
                     }
                     
-                    // Update cart count
                     updateCartCount();
                     saveCart();
                 }
             }
             
-            // Save cart to localStorage
             function saveCart() {
                 localStorage.setItem('urvashiCart', JSON.stringify(cart));
             }
             
-            // Update cart count
             function updateCartCount() {
                 const cartCount = document.querySelector('.cart-count');
                 const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
                 cartCount.textContent = totalItems;
             }
             
-            // Render cart
             function renderCart() {
                 const cartItems = document.querySelector('.cart-items');
                 
@@ -1973,8 +1660,8 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                     cartItems.innerHTML = `
                         <div class="empty-cart-message" style="text-align: center; padding: 30px;">
                             <i class="fas fa-shopping-cart" style="font-size: 3rem; color: #ddd; margin-bottom: 15px;"></i>
-                            <h3>Your cart is empty</h3>
-                            <p>Add some products to your cart</p>
+                            <h3>आपकी कार्ट खाली है</h3>
+                            <p>अपनी कार्ट में कुछ उत्पाद जोड़ें</p>
                         </div>
                     `;
                     document.getElementById('cartTotal').textContent = '0.00';
@@ -2003,14 +1690,13 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                                     <input type="text" class="qty-input" value="${item.quantity}" readonly>
                                     <button class="qty-btn plus" data-id="${item.id}">+</button>
                                 </div>
-                                <button class="remove-item" data-id="${item.id}">Remove</button>
+                                <button class="remove-item" data-id="${item.id}">हटाएं</button>
                             </div>
                         </div>
                     `;
                     
                     cartItems.appendChild(cartItem);
                     
-                    // Plus minus buttons
                     const plusBtn = cartItem.querySelector('.plus');
                     const minusBtn = cartItem.querySelector('.minus');
                     const qtyInput = cartItem.querySelector('.qty-input');
@@ -2054,11 +1740,10 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
             // Export to CSV
             function exportToCSV() {
                 if (products.length === 0) {
-                    alert('No products to export');
+                    alert('एक्सपोर्ट करने के लिए कोई उत्पाद नहीं');
                     return;
                 }
                 
-                // Create CSV content
                 const headers = ['productId', 'productName', 'quantity', 'price', 'imageUrl1', 'imageUrl2', 'imageUrl3'];
                 const csvContent = products.map(product => {
                     return [
@@ -2072,15 +1757,12 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                     ];
                 });
                 
-                // Add headers to the beginning
                 csvContent.unshift(headers);
                 
-                // Convert to CSV string
                 const csvString = csvContent.map(row => 
                     row.map(field => `"${field}"`).join(',')
                 ).join('\n');
                 
-                // Create download link
                 const blob = new Blob([csvString], { type: 'text/csv' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -2091,20 +1773,20 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
                 
-                showStatus('Products exported to CSV successfully!', 'success');
+                showStatus('उत्पाद CSV में सफलतापूर्वक एक्सपोर्ट हो गए!', 'success');
             }
             
             // Import from CSV
-            async function importFromCSV(file) {
+            function importFromCSV(file) {
                 const imageLoading = document.getElementById('image-loading');
                 imageLoading.style.display = 'flex';
                 
                 Papa.parse(file, {
                     header: true,
                     skipEmptyLines: true,
-                    complete: async function(results) {
+                    complete: function(results) {
                         if (results.errors.length > 0) {
-                            showStatus('Error parsing CSV file: ' + results.errors[0].message, 'error');
+                            showStatus('CSV फ़ाइल पार्स करने में त्रुटि: ' + results.errors[0].message, 'error');
                             imageLoading.style.display = 'none';
                             return;
                         }
@@ -2113,24 +1795,14 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                         
                         for (const row of results.data) {
                             if (row.productId && row.productName) {
-                                // Extract image URLs from the row
                                 const imageUrls = [
                                     row.imageUrl1 || '',
                                     row.imageUrl2 || '',
                                     row.imageUrl3 || ''
                                 ].filter(url => url !== '');
                                 
-                                // Load images from URLs and convert to base64
-                                let base64Images = [];
-                                if (imageUrls.length > 0) {
-                                    try {
-                                        base64Images = await loadImagesFromUrls(imageUrls);
-                                    } catch (error) {
-                                        console.error('Error loading images for product:', row.productName, error);
-                                        // Use placeholder images if loading fails
-                                        base64Images = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNjY2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZTwvdGV4dD48dGV4dCB4PSIxMDAiIHk9IjEyMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2NjIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+Tm90IEF2YWlsYWJsZTwvdGV4dD48L3N2Zz4='];
-                                    }
-                                }
+                                // Convert image URLs to GitHub URLs
+                                const githubImageUrls = imageUrls.map(url => convertToGitHubUrl(url));
                                 
                                 const product = {
                                     id: products.length > 0 ? Math.max(...products.map(p => p.id)) + importedProducts.length + 1 : importedProducts.length + 1,
@@ -2138,7 +1810,7 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                                     name: row.productName,
                                     quantity: parseInt(row.quantity) || 0,
                                     price: parseFloat(row.price) || 0,
-                                    images: base64Images
+                                    images: githubImageUrls
                                 };
                                 
                                 importedProducts.push(product);
@@ -2146,52 +1818,101 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                         }
                         
                         if (importedProducts.length === 0) {
-                            showStatus('No valid products found in the CSV file', 'error');
+                            showStatus('CSV फ़ाइल में कोई वैध उत्पाद नहीं मिले', 'error');
                             imageLoading.style.display = 'none';
                             return;
                         }
                         
-                        // Add imported products to existing products
                         products = [...products, ...importedProducts];
                         saveProducts();
                         renderAdminProducts();
                         renderProducts();
                         
-                        showStatus(`Successfully imported ${importedProducts.length} products from CSV!`, 'success');
+                        showStatus(`CSV से ${importedProducts.length} उत्पाद सफलतापूर्वक आयात हुए!`, 'success');
                         imageLoading.style.display = 'none';
                     }
                 });
             }
             
-            // Export to Excel
-            function exportToExcel() {
-                if (products.length === 0) {
-                    alert('No products to export');
-                    return;
+            // Load data from GitHub
+            async function loadFromGitHub() {
+                const imageLoading = document.getElementById('image-loading');
+                imageLoading.style.display = 'flex';
+                
+                try {
+                    // Get available CSV files
+                    const availableFiles = await getAvailableCSVFiles();
+                    
+                    if (availableFiles.length === 0) {
+                        showStatus('GitHub पर कोई CSV फ़ाइल नहीं मिली', 'error');
+                        imageLoading.style.display = 'none';
+                        return;
+                    }
+                    
+                    // Use the first available CSV file
+                    const csvFileName = availableFiles[0];
+                    const csvText = await loadCSVFromGitHub(csvFileName);
+                    
+                    if (!csvText) {
+                        showStatus('GitHub से CSV लोड नहीं हो सकी', 'error');
+                        imageLoading.style.display = 'none';
+                        return;
+                    }
+                    
+                    Papa.parse(csvText, {
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: function(results) {
+                            if (results.errors.length > 0) {
+                                showStatus('CSV पार्स करने में त्रुटि: ' + results.errors[0].message, 'error');
+                                imageLoading.style.display = 'none';
+                                return;
+                            }
+                            
+                            const importedProducts = [];
+                            
+                            for (const row of results.data) {
+                                if (row.productId && row.productName) {
+                                    const imageUrls = [
+                                        row.imageUrl1 || '',
+                                        row.imageUrl2 || '',
+                                        row.imageUrl3 || ''
+                                    ].filter(url => url !== '');
+                                    
+                                    const githubImageUrls = imageUrls.map(url => convertToGitHubUrl(url));
+                                    
+                                    const product = {
+                                        id: products.length > 0 ? Math.max(...products.map(p => p.id)) + importedProducts.length + 1 : importedProducts.length + 1,
+                                        itemNo: row.productId,
+                                        name: row.productName,
+                                        quantity: parseInt(row.quantity) || 0,
+                                        price: parseFloat(row.price) || 0,
+                                        images: githubImageUrls
+                                    };
+                                    
+                                    importedProducts.push(product);
+                                }
+                            }
+                            
+                            if (importedProducts.length === 0) {
+                                showStatus('CSV में कोई वैध उत्पाद नहीं मिले', 'error');
+                                imageLoading.style.display = 'none';
+                                return;
+                            }
+                            
+                            products = [...products, ...importedProducts];
+                            saveProducts();
+                            renderAdminProducts();
+                            renderProducts();
+                            
+                            showStatus(`GitHub से ${importedProducts.length} उत्पाद सफलतापूर्वक लोड हुए!`, 'success');
+                            imageLoading.style.display = 'none';
+                        }
+                    });
+                } catch (error) {
+                    showStatus('GitHub से डेटा लोड करने में त्रुटि: ' + error.message, 'error');
+                    imageLoading.style.display = 'none';
                 }
-                
-                // Prepare data for Excel
-                const excelData = products.map(product => {
-                    return {
-                        'Product ID': product.itemNo,
-                        'Product Name': product.name,
-                        'Quantity': product.quantity,
-                        'Price': product.price,
-                        'Image URL 1': product.images[0] || '',
-                        'Image URL 2': product.images[1] || '',
-                        'Image URL 3': product.images[2] || ''
-                    };
-                });
-                
-                // Create worksheet
-                const worksheet = XLSX.utils.json_to_sheet(excelData);
-                const workbook = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(workbook, worksheet, 'Products');
-                
-                // Generate Excel file and trigger download
-                XLSX.writeFile(workbook, 'urvashi_products.xlsx');
-                
-                showStatus('Products exported to Excel successfully!', 'success');
             }
             
             // Show status message
@@ -2210,8 +1931,8 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
             // Event listeners for data management buttons
             document.getElementById('export-csv').addEventListener('click', exportToCSV);
             document.getElementById('export-csv-tab').addEventListener('click', exportToCSV);
-            document.getElementById('export-excel').addEventListener('click', exportToExcel);
-            document.getElementById('export-excel-tab').addEventListener('click', exportToExcel);
+            document.getElementById('load-from-github').addEventListener('click', loadFromGitHub);
+            document.getElementById('save-to-github').addEventListener('click', loadFromGitHub);
             
             // Import CSV functionality
             document.getElementById('import-csv').addEventListener('click', function() {
@@ -2227,424 +1948,6 @@ P003,Beautiful Earrings Size-3,25,299.00,https://example.com/earrings3-1.jpg,htt
                     importFromCSV(e.target.files[0]);
                 }
             });
-            
-            // Import Excel functionality
-            document.getElementById('excel-file').addEventListener('change', function(e) {
-                if (e.target.files.length > 0) {
-                    const file = e.target.files[0];
-                    const reader = new FileReader();
-                    
-                    reader.onload = function(e) {
-                        const data = new Uint8Array(e.target.result);
-                        const workbook = XLSX.read(data, { type: 'array' });
-                        
-                        // Get the first worksheet
-                        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-                        const jsonData = XLSX.utils.sheet_to_json(worksheet);
-                        
-                        if (jsonData.length === 0) {
-                            showStatus('No data found in the Excel file', 'error');
-                            return;
-                        }
-                        
-                        // Process Excel data (similar to CSV import)
-                        const imageLoading = document.getElementById('image-loading');
-                        imageLoading.style.display = 'flex';
-                        
-                        // Process each row asynchronously
-                        processExcelData(jsonData).then(importedProducts => {
-                            if (importedProducts.length === 0) {
-                                showStatus('No valid products found in the Excel file', 'error');
-                                imageLoading.style.display = 'none';
-                                return;
-                            }
-                            
-                            // Add imported products to existing products
-                            products = [...products, ...importedProducts];
-                            saveProducts();
-                            renderAdminProducts();
-                            renderProducts();
-                            
-                            showStatus(`Successfully imported ${importedProducts.length} products from Excel!`, 'success');
-                            imageLoading.style.display = 'none';
-                        });
-                    };
-                    
-                    reader.readAsArrayBuffer(file);
-                }
-            });
-            
-            // Process Excel data asynchronously
-            async function processExcelData(jsonData) {
-                const importedProducts = [];
-                
-                for (const row of jsonData) {
-                    if (row['Product ID'] || row['productId']) {
-                        // Extract image URLs from the row
-                        const imageUrls = [
-                            row['Image URL 1'] || row['imageUrl1'] || '',
-                            row['Image URL 2'] || row['imageUrl2'] || '',
-                            row['Image URL 3'] || row['imageUrl3'] || ''
-                        ].filter(url => url !== '');
-                        
-                        // Load images from URLs and convert to base64
-                        let base64Images = [];
-                        if (imageUrls.length > 0) {
-                            try {
-                                base64Images = await loadImagesFromUrls(imageUrls);
-                            } catch (error) {
-                                console.error('Error loading images for product:', row['Product Name'] || row['productName'], error);
-                                // Use placeholder images if loading fails
-                                base64Images = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNjY2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZTwvdGV4dD48dGV4dCB4PSIxMDAiIHk9IjEyMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2NjIiB0leHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Ob3QgQXZhaWxhYmxlPC90ZXh0Pjwvc3ZnPg=='];
-                            }
-                        }
-                        
-                        const product = {
-                            id: products.length > 0 ? Math.max(...products.map(p => p.id)) + importedProducts.length + 1 : importedProducts.length + 1,
-                            itemNo: row['Product ID'] || row['productId'],
-                            name: row['Product Name'] || row['productName'],
-                            quantity: parseInt(row['Quantity'] || row['quantity']) || 0,
-                            price: parseFloat(row['Price'] || row['price']) || 0,
-                            images: base64Images
-                        };
-                        
-                        importedProducts.push(product);
-                    }
-                }
-                
-                return importedProducts;
-            }
-            
-            // Save to GitHub (simulated)
-            document.getElementById('save-to-github').addEventListener('click', function() {
-                if (products.length === 0) {
-                    alert('No products to save to GitHub');
-                    return;
-                }
-                
-                // In a real application, this would make an API call to save data to GitHub
-                // For this demo, we'll simulate the process
-                
-                // Create CSV content for GitHub
-                const headers = ['productId', 'productName', 'quantity', 'price', 'imageUrl1', 'imageUrl2', 'imageUrl3'];
-                const csvContent = products.map(product => {
-                    return [
-                        product.itemNo,
-                        product.name,
-                        product.quantity,
-                        product.price,
-                        product.images[0] || '',
-                        product.images[1] || '',
-                        product.images[2] || ''
-                    ];
-                });
-                
-                // Add headers to the beginning
-                csvContent.unshift(headers);
-                
-                // Convert to CSV string
-                const csvString = csvContent.map(row => 
-                    row.map(field => `"${field}"`).join(',')
-                ).join('\n');
-                
-                // Simulate saving to GitHub
-                setTimeout(() => {
-                    showStatus('Products saved to GitHub successfully! (Simulated)', 'success');
-                    
-                    // In a real implementation, you would:
-                    // 1. Use the GitHub API to create a commit with the CSV file
-                    // 2. Save images to a separate folder in the repository
-                    // 3. Update the CSV with the correct image URLs
-                }, 1000);
-            });
-            
-            document.getElementById('save-to-github-tab').addEventListener('click', function() {
-                document.getElementById('save-to-github').click();
-            });
-            
-            // Path Configuration Functions
-            
-            // Save path configuration
-            document.getElementById('save-paths').addEventListener('click', function() {
-                const imagePath = document.getElementById('image-folder-path').value;
-                const csvPath = document.getElementById('csv-file-path').value;
-                
-                pathConfig.imageFolderPath = imagePath;
-                pathConfig.csvFilePath = csvPath;
-                savePathConfig();
-                
-                const pathStatus = document.getElementById('path-status');
-                pathStatus.textContent = 'Paths saved successfully!';
-                pathStatus.className = 'path-status success';
-                pathStatus.style.display = 'block';
-                
-                setTimeout(() => {
-                    pathStatus.style.display = 'none';
-                }, 3000);
-            });
-            
-            // Test image path
-            document.getElementById('test-image-path').addEventListener('click', function() {
-                const imagePath = document.getElementById('image-folder-path').value;
-                
-                if (!imagePath) {
-                    alert('Please enter an image folder path');
-                    return;
-                }
-                
-                // Create a test image URL
-                const testImageUrl = imagePath + (imagePath.endsWith('/') ? 'test.jpg' : '/test.jpg');
-                const testImage = new Image();
-                
-                testImage.onload = function() {
-                    alert('Image path is accessible!');
-                };
-                
-                testImage.onerror = function() {
-                    alert('Image path might not be accessible. Check the path and try again.');
-                };
-                
-                testImage.src = testImageUrl;
-            });
-            
-            // Test CSV path
-            document.getElementById('test-csv-path').addEventListener('click', function() {
-                const csvPath = document.getElementById('csv-file-path').value;
-                
-                if (!csvPath) {
-                    alert('Please enter a CSV file path');
-                    return;
-                }
-                
-                // Try to fetch the CSV file
-                fetch(csvPath)
-                    .then(response => {
-                        if (response.ok) {
-                            alert('CSV path is accessible!');
-                        } else {
-                            alert('CSV path might not be accessible. Check the path and try again.');
-                        }
-                    })
-                    .catch(error => {
-                        alert('Error accessing CSV path: ' + error.message);
-                    });
-            });
-            
-            // Load data from configured paths
-            document.getElementById('load-from-paths').addEventListener('click', function() {
-                const imagePath = pathConfig.imageFolderPath;
-                const csvPath = pathConfig.csvFilePath;
-                
-                if (!imagePath || !csvPath) {
-                    alert('Please configure both image and CSV paths first');
-                    return;
-                }
-                
-                // Fetch CSV data
-                fetch(csvPath)
-                    .then(response => response.text())
-                    .then(csvText => {
-                        // Process CSV data
-                        Papa.parse(csvText, {
-                            header: true,
-                            skipEmptyLines: true,
-                            complete: async function(results) {
-                                if (results.errors.length > 0) {
-                                    alert('Error parsing CSV file: ' + results.errors[0].message);
-                                    return;
-                                }
-                                
-                                const importedProducts = [];
-                                
-                                for (const row of results.data) {
-                                    if (row.productId && row.productName) {
-                                        // Construct image URLs using the configured image path
-                                        const imageUrls = [];
-                                        for (let i = 1; i <= 3; i++) {
-                                            const imageUrlField = `imageUrl${i}`;
-                                            if (row[imageUrlField]) {
-                                                // If the image URL is relative, prepend the image path
-                                                let imageUrl = row[imageUrlField];
-                                                if (!imageUrl.startsWith('http') && !imageUrl.startsWith('data:')) {
-                                                    imageUrl = imagePath + (imagePath.endsWith('/') ? '' : '/') + imageUrl;
-                                                }
-                                                imageUrls.push(imageUrl);
-                                            }
-                                        }
-                                        
-                                        // Load images from URLs and convert to base64
-                                        let base64Images = [];
-                                        if (imageUrls.length > 0) {
-                                            try {
-                                                base64Images = await loadImagesFromUrls(imageUrls);
-                                            } catch (error) {
-                                                console.error('Error loading images for product:', row.productName, error);
-                                                // Use placeholder images if loading fails
-                                                base64Images = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNjY2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZTwvdGV4dD48dGV4dCB4PSIxMDAiIHk9IjEyMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2NjIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+Tm90IEF2YWlsYWJsZTwvdGV4dD48L3N2Zz4='];
-                                            }
-                                        }
-                                        
-                                        const product = {
-                                            id: products.length > 0 ? Math.max(...products.map(p => p.id)) + importedProducts.length + 1 : importedProducts.length + 1,
-                                            itemNo: row.productId,
-                                            name: row.productName,
-                                            quantity: parseInt(row.quantity) || 0,
-                                            price: parseFloat(row.price) || 0,
-                                            images: base64Images
-                                        };
-                                        
-                                        importedProducts.push(product);
-                                    }
-                                }
-                                
-                                if (importedProducts.length === 0) {
-                                    alert('No valid products found in the CSV file');
-                                    return;
-                                }
-                                
-                                // Add imported products to existing products
-                                products = [...products, ...importedProducts];
-                                saveProducts();
-                                renderAdminProducts();
-                                renderProducts();
-                                
-                                alert(`Successfully imported ${importedProducts.length} products from configured paths!`);
-                            }
-                        });
-                    })
-                    .catch(error => {
-                        alert('Error loading CSV file: ' + error.message);
-                    });
-            });
-            
-            // Automated Upload Functions
-            
-            // Process uploaded files
-            document.getElementById('process-upload').addEventListener('click', function() {
-                const imageFiles = document.getElementById('image-upload-folder').files;
-                const csvFile = document.getElementById('csv-upload-file').files[0];
-                
-                if (imageFiles.length === 0 || !csvFile) {
-                    alert('Please select both an image folder and a CSV file');
-                    return;
-                }
-                
-                // Show upload status
-                const uploadStatus = document.getElementById('upload-status');
-                const progressBar = document.getElementById('progress-bar');
-                const progressText = document.getElementById('progress-text');
-                const uploadLog = document.getElementById('upload-log');
-                
-                uploadStatus.style.display = 'block';
-                progressBar.style.width = '0%';
-                progressText.textContent = '0%';
-                uploadLog.innerHTML = '';
-                
-                // Read CSV file
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const csvText = e.target.result;
-                    
-                    // Process CSV data
-                    Papa.parse(csvText, {
-                        header: true,
-                        skipEmptyLines: true,
-                        complete: async function(results) {
-                            if (results.errors.length > 0) {
-                                addLogEntry('Error parsing CSV file: ' + results.errors[0].message, 'error');
-                                return;
-                            }
-                            
-                            const importedProducts = [];
-                            const totalProducts = results.data.length;
-                            let processedProducts = 0;
-                            
-                            for (const row of results.data) {
-                                if (row.productId && row.productName) {
-                                    // Find matching images for this product
-                                    const productImages = [];
-                                    const productId = row.productId;
-                                    
-                                    // Look for images that match the product ID
-                                    for (let i = 0; i < imageFiles.length; i++) {
-                                        const file = imageFiles[i];
-                                        if (file.name.includes(productId) || 
-                                            file.name.toLowerCase().includes(row.productName.toLowerCase().replace(/\s+/g, '_'))) {
-                                            const imageUrl = URL.createObjectURL(file);
-                                            productImages.push(imageUrl);
-                                        }
-                                    }
-                                    
-                                    // If no specific images found, use the first few images
-                                    if (productImages.length === 0) {
-                                        for (let i = 0; i < Math.min(3, imageFiles.length); i++) {
-                                            const imageUrl = URL.createObjectURL(imageFiles[i]);
-                                            productImages.push(imageUrl);
-                                        }
-                                    }
-                                    
-                                    // Load images and convert to base64
-                                    let base64Images = [];
-                                    if (productImages.length > 0) {
-                                        try {
-                                            base64Images = await loadImagesFromUrls(productImages);
-                                        } catch (error) {
-                                            console.error('Error loading images for product:', row.productName, error);
-                                            // Use placeholder images if loading fails
-                                            base64Images = ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNjY2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZTwvdGV4dD48dGV4dCB4PSIxMDAiIHk9IjEyMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2NjIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+Tm90IEF2YWlsYWJsZTwvdGV4dD48L3N2Zz4='];
-                                        }
-                                    }
-                                    
-                                    const product = {
-                                        id: products.length > 0 ? Math.max(...products.map(p => p.id)) + importedProducts.length + 1 : importedProducts.length + 1,
-                                        itemNo: row.productId,
-                                        name: row.productName,
-                                        quantity: parseInt(row.quantity) || 0,
-                                        price: parseFloat(row.price) || 0,
-                                        images: base64Images
-                                    };
-                                    
-                                    importedProducts.push(product);
-                                    addLogEntry(`Processed product: ${row.productName}`, 'success');
-                                    
-                                    // Update progress
-                                    processedProducts++;
-                                    const progress = (processedProducts / totalProducts) * 100;
-                                    progressBar.style.width = progress + '%';
-                                    progressText.textContent = Math.round(progress) + '%';
-                                }
-                            }
-                            
-                            if (importedProducts.length === 0) {
-                                addLogEntry('No valid products found in the CSV file', 'error');
-                                return;
-                            }
-                            
-                            // Add imported products to existing products
-                            products = [...products, ...importedProducts];
-                            saveProducts();
-                            renderAdminProducts();
-                            renderProducts();
-                            
-                            addLogEntry(`Successfully imported ${importedProducts.length} products!`, 'success');
-                            progressBar.style.width = '100%';
-                            progressText.textContent = '100%';
-                        }
-                    });
-                };
-                
-                reader.readAsText(csvFile);
-            });
-            
-            // Add log entry to upload log
-            function addLogEntry(message, type) {
-                const uploadLog = document.getElementById('upload-log');
-                const logEntry = document.createElement('div');
-                logEntry.className = 'log-entry ' + (type || '');
-                logEntry.textContent = new Date().toLocaleTimeString() + ' - ' + message;
-                uploadLog.appendChild(logEntry);
-                uploadLog.scrollTop = uploadLog.scrollHeight;
-            }
             
             // Initialize the page
             renderProducts();
