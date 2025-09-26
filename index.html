@@ -1405,16 +1405,18 @@ document.addEventListener('DOMContentLoaded', async function() {
    function createProductCard(product) {
     const card = document.createElement('div');
     card.className = 'product-card';
-    const GITHUB_BASE_URLQ = 'https://raw.githubusercontent.com/Urvashimahawar/urvashi.github.io/main/images/';
 
-    // Use first image from CSV, prepend GitHub URL if not empty
+    const GITHUB_BASE_URL = 'https://raw.githubusercontent.com/Urvashimahawar/urvashi.github.io/main/images/';
+    const DEFAULT_IMAGE = 'https://via.placeholder.com/200x200?text=No+Image'; // fallback image
+
+    // Use first image from CSV, prepend GitHub URL if exists
     const imageSrc = product.images && product.images.length > 0
-        ? GITHUB_BASE_URLQ + product.images[0]   // Combine base URL + image name
-        : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmOGY5ZmEiLz48dGV4dCB4PSI1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNjY2MiPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg==';
+        ? GITHUB_BASE_URL + product.images[0]
+        : DEFAULT_IMAGE;
 
     card.innerHTML = `
         <div class="product-image">
-            <img src="${imageSrc}" alt="${product.name}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmOGY5ZmEiLz48dGV4dCB4PSI1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNjY2MiPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='">
+            <img src="${imageSrc}" alt="${product.name}" onerror="this.src='${DEFAULT_IMAGE}'">
         </div>
         <div class="product-info">
             <h3 class="product-title">${product.name}</h3>
@@ -1446,6 +1448,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     return card;
 }
+
 
     function renderProducts() {
         const productsGrid = document.querySelector('#products .products-grid');
@@ -1540,6 +1543,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 </body>
 </html>
+
 
 
 
