@@ -1153,354 +1153,177 @@ P002,सुंदर झुमके साइज-2,30,149.50,https://raw.github
         </div>
     </div>
 <script>
-// ==========================
-// NAVIGATION FUNCTIONALITY
-// ==========================
-const navLinks = document.querySelectorAll('.nav-link');
-const footerNavLinks = document.querySelectorAll('.footer-nav');
-const pages = document.querySelectorAll('.page');
-const adminLink = document.getElementById('admin-link');
-const footerAdminLink = document.getElementById('footer-admin-link');
-const backToStoreBtn = document.getElementById('back-to-store');
-const publicPage = document.getElementById('public-page');
-const adminPage = document.getElementById('admin-page');
+    document.addEventListener('DOMContentLoaded', async function() {
 
-function navigateTo(pageId) {
-    // Remove active class from all nav links
-    navLinks.forEach(navLink => navLink.classList.remove('active'));
-    footerNavLinks.forEach(navLink => navLink.classList.remove('active'));
+    // ==========================
+    // NAVIGATION
+    // ==========================
+    const navLinks = document.querySelectorAll('.nav-link');
+    const pages = document.querySelectorAll('.page');
+    const adminLink = document.getElementById('admin-link');
+    const backToStoreBtn = document.getElementById('back-to-store');
 
-    // Add active class to clicked nav link
-    document.querySelectorAll(`[data-page="${pageId}"]`).forEach(el => el.classList.add('active'));
-
-    // Hide all pages
-    pages.forEach(page => page.classList.remove('active'));
-
-    // Show target page
-    const targetPage = document.getElementById(pageId);
-    if (targetPage) targetPage.classList.add('active');
-
-    // Special rendering for products/home/cart pages
-    if (pageId === 'products' || pageId === 'home') {
-        renderProducts();
+    function navigateTo(pageId) {
+        navLinks.forEach(n => n.classList.remove('active'));
+        document.querySelectorAll(`[data-page="${pageId}"]`).forEach(el => el.classList.add('active'));
+        pages.forEach(p => p.classList.remove('active'));
+        const target = document.getElementById(pageId);
+        if(target) target.classList.add('active');
+        if(pageId==='products'||pageId==='home') renderProducts();
+        if(pageId==='cart') renderCart();
     }
-    if (pageId === 'cart') {
-        renderCart();
-    }
-}
 
-// Nav links click
-navLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
+    navLinks.forEach(l => l.addEventListener('click', e => {
         e.preventDefault();
-        const pageId = this.getAttribute('data-page');
-        navigateTo(pageId);
-    });
-});
+        navigateTo(l.getAttribute('data-page'));
+    }));
 
-// Footer nav links click
-footerNavLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const pageId = this.getAttribute('data-page');
-        navigateTo(pageId);
-    });
-});
-
-// Admin link click
-if (adminLink) {
-    adminLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        navigateTo('admin-page');
-    });
-}
-if (footerAdminLink) {
-    footerAdminLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        navigateTo('admin-page');
-    });
-}
-
-// Back to store button (from admin)
-if (backToStoreBtn) {
-    backToStoreBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        navigateTo('home');
-    });
-}
-
-document.addEventListener('DOMContentLoaded', async function() {
-    // ==========================
-    // CONFIGURATION
-    // ==========================
-    const ADMIN_PASSWORD = "admin123";
-    const GITHUB_REPO = "Urvashimahawar/urvashi.github.io";
-    const GITHUB_BRANCH = "main";
-    const GITHUB_IMAGE_FOLDER = "images";
-    const GITHUB_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/${GITHUB_IMAGE_FOLDER}/`;
-
-    let products = []; // all products in memory
-    let cart = [];     // cart items in memory
+    if(adminLink) adminLink.addEventListener('click', e => { e.preventDefault(); navigateTo('admin-page'); });
+    if(backToStoreBtn) backToStoreBtn.addEventListener('click', e => { e.preventDefault(); navigateTo('home'); });
 
     // ==========================
-    // UTILITY FUNCTIONS
+    // CONFIG
     // ==========================
+    const ADMIN_PASSWORD = 'admin123';
+    const GITHUB_BASE_URL = 'https://raw.githubusercontent.com/Urvashimahawar/urvashi.github.io/main/images/';
+
+    let products = [];
+    let cart = [];
+
     function formatINR(amount) {
-        return new Intl.NumberFormat('en-IN', {
-            maximumFractionDigits: 2,
-            minimumFractionDigits: 2
-        }).format(amount);
+        return new Intl.NumberFormat('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}).format(amount);
     }
 
-    function convertToGitHubUrl(url) {
-        if (!url) return '';
-        if (url.startsWith('http')) {
-            if (url.includes('github.com') && url.includes('/blob/')) {
-                return url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
-            }
-            return url;
-        }
+    function convertToGitHubUrl(url){
+        if(!url) return '';
+        if(url.startsWith('http')) return url;
         return GITHUB_BASE_URL + url;
     }
 
-    function showTemporaryMessage(message) {
-        const confirmation = document.createElement('div');
-        confirmation.textContent = message;
-        confirmation.style.position = 'fixed';
-        confirmation.style.bottom = '20px';
-        confirmation.style.right = '20px';
-        confirmation.style.background = '#00b894';
-        confirmation.style.color = 'white';
-        confirmation.style.padding = '10px 20px';
-        confirmation.style.borderRadius = '5px';
-        confirmation.style.zIndex = '1000';
-        document.body.appendChild(confirmation);
-        setTimeout(() => document.body.removeChild(confirmation), 2000);
+    function showTemporaryMessage(msg){
+        const div = document.createElement('div');
+        div.textContent = msg;
+        Object.assign(div.style,{position:'fixed',bottom:'20px',right:'20px',background:'#00b894',color:'white',padding:'10px 20px',borderRadius:'5px',zIndex:1000});
+        document.body.appendChild(div);
+        setTimeout(()=>document.body.removeChild(div),2000);
     }
 
     // ==========================
-    // CSV IMPORT FUNCTIONS
+    // LOAD PRODUCTS FROM CSV
     // ==========================
-    async function getAvailableCSVFiles() {
-        const possibleFiles = ['products.csv', 'sample-products.csv', 'urvashi-products.csv'];
-        const availableFiles = [];
-        for (const fileName of possibleFiles) {
-            try {
-                const response = await fetch(`${GITHUB_BASE_URL}${fileName}`);
-                if (response.ok) availableFiles.push(fileName);
-            } catch (err) {}
-        }
-        return availableFiles;
+    async function loadCSV(url){
+        const res = await fetch(url);
+        if(!res.ok) return null;
+        return await res.text();
     }
 
-    async function loadCSVFromGitHub(csvFileName) {
-        const csvUrl = `${GITHUB_BASE_URL}${csvFileName}`;
-        try {
-            const response = await fetch(csvUrl);
-            if (!response.ok) throw new Error('CSV file not found');
-            return await response.text();
-        } catch (err) {
-            console.error('Error loading CSV:', err);
-            return null;
-        }
-    }
-
-    async function loadFromGitHub() {
-        const imageLoading = document.getElementById('image-loading');
-        imageLoading.style.display = 'flex';
-        try {
-            const availableFiles = await getAvailableCSVFiles();
-            if (availableFiles.length === 0) {
-                showStatus('GitHub पर कोई CSV फ़ाइल नहीं मिली', 'error');
-                imageLoading.style.display = 'none';
-                return;
-            }
-
-            const csvText = await loadCSVFromGitHub(availableFiles[0]);
-            if (!csvText) {
-                showStatus('GitHub से CSV लोड नहीं हो सकी', 'error');
-                imageLoading.style.display = 'none';
-                return;
-            }
-
-            Papa.parse(csvText, {
-                header: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    const importedProducts = [];
-                    results.data.forEach((row, i) => {
-                        if (row.productId && row.productName) {
-                            const images = [row.imageUrl1, row.imageUrl2, row.imageUrl3]
-                                .filter(url => url)
-                                .map(url => convertToGitHubUrl(url));
-
-                            importedProducts.push({
-                                id: i + 1,
-                                itemNo: row.productId,
-                                name: row.productName,
-                                quantity: parseInt(row.quantity) || 0,
-                                price: parseFloat(row.price) || 0,
-                                images: images
-                            });
-                        }
-                    });
-                    products = importedProducts;
+    async function loadFromGitHub(){
+        const csvFiles = ['sample-products.csv','urvashi-products.csv'];
+        for(const file of csvFiles){
+            const text = await loadCSV(GITHUB_BASE_URL + file);
+            if(text){
+                Papa.parse(text,{header:true,skipEmptyLines:true,complete:function(results){
+                    products = results.data.filter(r=>r.productId&&r.productName).map((r,i)=>({
+                        id:i+1,
+                        itemNo:r.productId,
+                        name:r.productName,
+                        quantity:parseInt(r.quantity)||0,
+                        price:parseFloat(r.price)||0,
+                        images:[r.imageUrl1,r.imageUrl2,r.imageUrl3].filter(u=>u).map(convertToGitHubUrl)
+                    }));
                     renderAdminProducts();
                     renderProducts();
-                    showStatus(`GitHub से ${importedProducts.length} उत्पाद लोड हुए!`, 'success');
-                    imageLoading.style.display = 'none';
-                }
-            });
-        } catch (err) {
-            showStatus('GitHub डेटा लोड त्रुटि: ' + err.message, 'error');
-            imageLoading.style.display = 'none';
+                }});
+                break;
+            }
         }
     }
 
-    function importFromCSV(file) {
-        const imageLoading = document.getElementById('image-loading');
-        imageLoading.style.display = 'flex';
-        Papa.parse(file, {
-            header: true,
-            skipEmptyLines: true,
-            complete: function(results) {
-                const importedProducts = [];
-                results.data.forEach((row, i) => {
-                    if (row.productId && row.productName) {
-                        const images = [row.imageUrl1, row.imageUrl2, row.imageUrl3]
-                            .filter(url => url)
-                            .map(url => convertToGitHubUrl(url));
-
-                        importedProducts.push({
-                            id: products.length + i + 1,
-                            itemNo: row.productId,
-                            name: row.productName,
-                            quantity: parseInt(row.quantity) || 0,
-                            price: parseFloat(row.price) || 0,
-                            images: images
-                        });
-                    }
-                });
-                products = [...products, ...importedProducts];
+    document.getElementById('import-csv').addEventListener('change', e=>{
+        const file = e.target.files[0];
+        if(file){
+            Papa.parse(file,{header:true,skipEmptyLines:true,complete:function(results){
+                const imported = results.data.filter(r=>r.productId&&r.productName).map((r,i)=>({
+                    id:products.length+i+1,
+                    itemNo:r.productId,
+                    name:r.productName,
+                    quantity:parseInt(r.quantity)||0,
+                    price:parseFloat(r.price)||0,
+                    images:[r.imageUrl1,r.imageUrl2,r.imageUrl3].filter(u=>u).map(convertToGitHubUrl)
+                }));
+                products = [...products,...imported];
                 renderAdminProducts();
                 renderProducts();
-                showStatus(`CSV से ${importedProducts.length} उत्पाद आयात हुए!`, 'success');
-                imageLoading.style.display = 'none';
-            }
-        });
-    }
-
-    function showStatus(message, type) {
-        const statusElement = document.getElementById('import-status');
-        statusElement.textContent = message;
-        statusElement.className = 'status-message status-' + type;
-        statusElement.style.display = 'block';
-        setTimeout(() => { statusElement.style.display = 'none'; }, 5000);
-    }
+                showTemporaryMessage(`CSV से ${imported.length} उत्पाद आयात हुए!`);
+            }});
+        }
+    });
 
     // ==========================
     // PRODUCT RENDERING
     // ==========================
-   function createProductCard(product) {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-
-    const GITHUB_BASE_URL = 'https://raw.githubusercontent.com/Urvashimahawar/urvashi.github.io/main/images/';
-    const DEFAULT_IMAGE = 'https://via.placeholder.com/200x200?text=No+Image'; // fallback image
-
-    // Use first image from CSV, prepend GitHub URL if exists
-    const imageSrc = product.images && product.images.length > 0
-        ? GITHUB_BASE_URL + product.images[0]
-        : DEFAULT_IMAGE;
-
-    card.innerHTML = `
-        <div class="product-image">
-            <img src="${imageSrc}" alt="${product.name}" onerror="this.src='${DEFAULT_IMAGE}'">
-        </div>
-        <div class="product-info">
-            <h3 class="product-title">${product.name}</h3>
-            <div class="product-price">₹ <span class="inr-symbol">${formatINR(product.price)}</span></div>
-            <div class="product-actions">
-                <div class="quantity-control">
-                    <button class="qty-btn minus">-</button>
-                    <input type="text" class="qty-input" value="1" readonly>
-                    <button class="qty-btn plus">+</button>
+    function createProductCard(p){
+        const card = document.createElement('div');
+        card.className='product-card';
+        const imgSrc = (p.images && p.images.length>0)?p.images[0]:'https://via.placeholder.com/200x200?text=No+Image';
+        card.innerHTML=`
+            <div class="product-image"><img src="${imgSrc}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/200x200?text=No+Image'"></div>
+            <div class="product-info">
+                <h3 class="product-title">${p.name}</h3>
+                <div class="product-price">₹ <span>${formatINR(p.price)}</span></div>
+                <div class="product-actions">
+                    <div class="quantity-control">
+                        <button class="qty-btn minus">-</button>
+                        <input type="text" class="qty-input" value="1" readonly>
+                        <button class="qty-btn plus">+</button>
+                    </div>
+                    <button class="add-to-cart" data-id="${p.id}">कार्ट में जोड़ें</button>
                 </div>
-                <button class="add-to-cart" data-id="${product.id}">कार्ट में जोड़ें</button>
             </div>
-        </div>
-    `;
+        `;
+        const plus = card.querySelector('.plus');
+        const minus = card.querySelector('.minus');
+        const qty = card.querySelector('.qty-input');
+        plus.addEventListener('click',()=>qty.value=parseInt(qty.value)+1);
+        minus.addEventListener('click',()=>{if(parseInt(qty.value)>1) qty.value=parseInt(qty.value)-1;});
+        card.querySelector('.add-to-cart').addEventListener('click',()=>{
+            addToCart(p.id,parseInt(qty.value));
+            showTemporaryMessage('कार्ट में जोड़ा गया!');
+        });
+        return card;
+    }
 
-    const plusBtn = card.querySelector('.plus');
-    const minusBtn = card.querySelector('.minus');
-    const qtyInput = card.querySelector('.qty-input');
-
-    plusBtn.addEventListener('click', () => qtyInput.value = parseInt(qtyInput.value) + 1);
-    minusBtn.addEventListener('click', () => {
-        if (parseInt(qtyInput.value) > 1) qtyInput.value = parseInt(qtyInput.value) - 1;
-    });
-
-    card.querySelector('.add-to-cart').addEventListener('click', () => {
-        addToCart(product.id, parseInt(qtyInput.value));
-        showTemporaryMessage('कार्ट में जोड़ा गया!');
-    });
-
-    return card;
-}
-
-
-    function renderProducts() {
-        const productsGrid = document.querySelector('#products .products-grid');
-        const homeProductsGrid = document.querySelector('#home .products-grid');
-        productsGrid.innerHTML = '';
-        homeProductsGrid.innerHTML = '';
-
-        if (products.length === 0) {
-            productsGrid.innerHTML = homeProductsGrid.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-box-open"></i>
-                    <h3>कोई उत्पाद उपलब्ध नहीं</h3>
-                    <p>एडमिन द्वारा उत्पाद जोड़े जाने पर यहां दिखाई देंगे</p>
-                </div>`;
-            return;
+    function renderProducts(){
+        const prodGrid = document.querySelector('#products .products-grid');
+        const homeGrid = document.querySelector('#home .products-grid');
+        prodGrid.innerHTML=''; homeGrid.innerHTML='';
+        if(products.length===0){
+            prodGrid.innerHTML=homeGrid.innerHTML='<div>कोई उत्पाद उपलब्ध नहीं</div>'; return;
         }
-
-        products.forEach(p => productsGrid.appendChild(createProductCard(p)));
-        products.slice(0, 3).forEach(p => homeProductsGrid.appendChild(createProductCard(p)));
+        products.forEach(p=>prodGrid.appendChild(createProductCard(p)));
+        products.slice(0,3).forEach(p=>homeGrid.appendChild(createProductCard(p)));
     }
 
     // ==========================
-    // ADMIN PRODUCTS
+    // ADMIN
     // ==========================
-    function renderAdminProducts() {
+    function renderAdminProducts(){
         const adminList = document.getElementById('admin-product-list');
-        const noProducts = document.getElementById('no-products-message');
-        adminList.innerHTML = '';
-        if (products.length === 0) {
-            noProducts.style.display = 'block';
-            return;
-        }
-        noProducts.style.display = 'none';
-
-        products.forEach(product => {
+        const noProd = document.getElementById('no-products-message');
+        adminList.innerHTML='';
+        if(products.length===0){noProd.style.display='block'; return;}
+        noProd.style.display='none';
+        products.forEach(p=>{
             const row = document.createElement('tr');
-            const imageSrc = product.images && product.images.length > 0 ? product.images[0] : 'data:image/svg+xml;base64,...';
-            row.innerHTML = `
-                <td>${product.itemNo}</td>
-                <td><img src="${imageSrc}" alt="${product.name}" style="width:60px;"></td>
-                <td>${product.name}</td>
-                <td>₹ ${formatINR(product.price)}</td>
-                <td>${product.quantity}</td>
-                <td><button class="btn btn-danger delete-product" data-id="${product.id}">हटाएं</button></td>
-            `;
+            const img = (p.images && p.images.length>0)?p.images[0]:'https://via.placeholder.com/60';
+            row.innerHTML=`<td>${p.itemNo}</td><td><img src="${img}" style="width:60px;"></td><td>${p.name}</td><td>₹ ${formatINR(p.price)}</td><td>${p.quantity}</td><td><button class="delete-product" data-id="${p.id}">हटाएं</button></td>`;
             adminList.appendChild(row);
         });
-
-        document.querySelectorAll('.delete-product').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const id = parseInt(btn.dataset.id);
-                if (confirm('क्या आप वाकई इस उत्पाद को हटाना चाहते हैं?')) {
-                    products = products.filter(p => p.id !== id);
+        document.querySelectorAll('.delete-product').forEach(btn=>{
+            btn.addEventListener('click',()=>{ 
+                const id=parseInt(btn.dataset.id);
+                if(confirm('क्या आप वाकई इस उत्पाद को हटाना चाहते हैं?')){
+                    products = products.filter(p=>p.id!==id);
                     renderAdminProducts();
                     renderProducts();
                 }
@@ -1509,39 +1332,45 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // ==========================
-    // CART FUNCTIONS
+    // CART
     // ==========================
-    function addToCart(productId, qty) {
-        const product = products.find(p => p.id === productId);
-        if (!product) return;
-        const cartItem = cart.find(c => c.id === productId);
-        if (cartItem) cartItem.quantity += qty;
-        else cart.push({ ...product, quantity: qty });
+    function addToCart(id,qty){
+        const p = products.find(pr=>pr.id===id);
+        if(!p) return;
+        const item = cart.find(c=>c.id===id);
+        if(item) item.quantity+=qty;
+        else cart.push({...p,quantity:qty});
         updateCartCount();
     }
 
-    function updateCartCount() {
-        const count = cart.reduce((acc, c) => acc + c.quantity, 0);
-        document.querySelectorAll('.cart-count').forEach(el => el.textContent = count);
+    function renderCart(){
+        const container = document.getElementById('cart-items');
+        container.innerHTML='';
+        if(cart.length===0){container.innerHTML='आपका कार्ट खाली है'; return;}
+        cart.forEach(c=>{
+            const div = document.createElement('div');
+            div.textContent=`${c.name} - Qty: ${c.quantity} - ₹ ${formatINR(c.price*c.quantity)}`;
+            container.appendChild(div);
+        });
+    }
+
+    function updateCartCount(){
+        const count = cart.reduce((acc,c)=>acc+c.quantity,0);
+        document.querySelectorAll('.cart-count').forEach(el=>el.textContent=count);
     }
 
     // ==========================
-    // EVENT LISTENERS
-    // ==========================
-    document.getElementById('import-csv').addEventListener('change', function(e) {
-        if (e.target.files.length > 0) importFromCSV(e.target.files[0]);
-    });
-
-    // ==========================
-    // LOAD PRODUCTS ON PAGE LOAD
+    // INITIAL LOAD
     // ==========================
     await loadFromGitHub();
     updateCartCount();
-});
-</script>
 
+});
+
+</script>
 </body>
 </html>
+
 
 
 
