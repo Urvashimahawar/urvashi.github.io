@@ -1152,7 +1152,83 @@ P002,सुंदर झुमके साइज-2,30,149.50,https://raw.github
             </div>
         </div>
     </div>
+<script>
+// ==========================
+// NAVIGATION FUNCTIONALITY
+// ==========================
+const navLinks = document.querySelectorAll('.nav-link');
+const footerNavLinks = document.querySelectorAll('.footer-nav');
+const pages = document.querySelectorAll('.page');
+const adminLink = document.getElementById('admin-link');
+const footerAdminLink = document.getElementById('footer-admin-link');
+const backToStoreBtn = document.getElementById('back-to-store');
+const publicPage = document.getElementById('public-page');
+const adminPage = document.getElementById('admin-page');
 
+function navigateTo(pageId) {
+    // Remove active class from all nav links
+    navLinks.forEach(navLink => navLink.classList.remove('active'));
+    footerNavLinks.forEach(navLink => navLink.classList.remove('active'));
+
+    // Add active class to clicked nav link
+    document.querySelectorAll(`[data-page="${pageId}"]`).forEach(el => el.classList.add('active'));
+
+    // Hide all pages
+    pages.forEach(page => page.classList.remove('active'));
+
+    // Show target page
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) targetPage.classList.add('active');
+
+    // Special rendering for products/home/cart pages
+    if (pageId === 'products' || pageId === 'home') {
+        renderProducts();
+    }
+    if (pageId === 'cart') {
+        renderCart();
+    }
+}
+
+// Nav links click
+navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const pageId = this.getAttribute('data-page');
+        navigateTo(pageId);
+    });
+});
+
+// Footer nav links click
+footerNavLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const pageId = this.getAttribute('data-page');
+        navigateTo(pageId);
+    });
+});
+
+// Admin link click
+if (adminLink) {
+    adminLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        navigateTo('admin-page');
+    });
+}
+if (footerAdminLink) {
+    footerAdminLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        navigateTo('admin-page');
+    });
+}
+
+// Back to store button (from admin)
+if (backToStoreBtn) {
+    backToStoreBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        navigateTo('home');
+    });
+}
+</script>
    <script>
 document.addEventListener('DOMContentLoaded', async function() {
     // ==========================
@@ -1461,5 +1537,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 </body>
 </html>
+
 
 
