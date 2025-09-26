@@ -1162,31 +1162,116 @@ P002,सुंदर झुमके साइज-2,30,149.50,https://raw.github
     const pages = document.querySelectorAll('.page');
     const adminLink = document.getElementById('admin-link');
     const backToStoreBtn = document.getElementById('back-to-store');
+	
+	// NAVIGATION + ADMIN LOGIN
+//const adminLink = document.getElementById('admin-link');
+const adminPage = document.getElementById('admin-page');
+const loginBox = document.getElementById('admin-login');
+ const adminLogin = document.getElementById('admin-login');
+const loginBtn = document.getElementById('login-btn');
+const adminPasswordInput = document.getElementById('admin-password');
+const loginError = document.getElementById('login-error');
+ const footerAdminLink = document.getElementById('footer-admin-link');
+  const logoutBtn = document.getElementById('logout-btn');
+    const publicPage = document.getElementById('public-page');
+	const adminPanelContent = document.getElementById('admin-panel-content');
+//const ADMIN_PASSWORD = "admin123";
+<!-- if(adminLink){ -->
+    <!-- adminLink.addEventListener('click', function(e){ -->
+        <!-- e.preventDefault(); -->
 
-    function navigateTo(pageId) {
-        navLinks.forEach(n => n.classList.remove('active'));
-        document.querySelectorAll(`[data-page="${pageId}"]`).forEach(el => el.classList.add('active'));
-        pages.forEach(p => p.classList.remove('active'));
-        const target = document.getElementById(pageId);
-        if(target) target.classList.add('active');
-        if(pageId==='products'||pageId==='home') renderProducts();
-        if(pageId==='cart') renderCart();
+        <!-- // Hide all other pages -->
+        <!-- pages.forEach(page => page.style.display = 'none'); -->
+
+        <!-- // Show admin page -->
+        <!-- if(adminPage) adminPage.style.display = 'block'; -->
+    <!-- }); -->
+<!-- } -->
+
+   adminLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                publicPage.style.display = 'none';
+                adminPage.style.display = 'block';
+                adminLogin.style.display = 'flex';
+                adminPanelContent.style.display = 'none';
+                loginError.style.display = 'none';
+                document.getElementById('admin-password').value = '';
+            });
+            
+            footerAdminLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                publicPage.style.display = 'none';
+                adminPage.style.display = 'block';
+                adminLogin.style.display = 'flex';
+                adminPanelContent.style.display = 'none';
+                loginError.style.display = 'none';
+                document.getElementById('admin-password').value = '';
+            });
+            
+            loginBtn.addEventListener('click', function() {
+                const password = document.getElementById('admin-password').value;
+                
+                if (password === ADMIN_PASSWORD) {
+                    adminLogin.style.display = 'none';
+                    adminPanelContent.style.display = 'block';
+                    renderAdminProducts();
+                } else {
+                    loginError.style.display = 'block';
+                }
+            });
+            
+            logoutBtn.addEventListener('click', function() {
+                adminLogin.style.display = 'flex';
+                adminPanelContent.style.display = 'none';
+                loginError.style.display = 'none';
+                document.getElementById('admin-password').value = '';
+            });
+
+// Updated navigateTo function
+function navigateTo(pageId) {
+    // Remove active class from all nav links
+    navLinks.forEach(n => n.classList.remove('active'));
+    document.querySelectorAll(`[data-page="${pageId}"]`).forEach(el => el.classList.add('active'));
+
+    // Hide all pages
+    pages.forEach(p => p.classList.remove('active'));
+
+    // Show target page
+    const target = document.getElementById(pageId);
+    if (target) target.classList.add('active');
+
+    // Special rendering for certain pages
+    if (pageId === 'products' || pageId === 'home') renderProducts();
+    if (pageId === 'cart') renderCart();
+
+    // Show/hide footer
+    const footer = document.querySelector('footer');
+    if (pageId === 'admin-page') {
+        if (footer) footer.style.display = 'none';
+    } else {
+        if (footer) footer.style.display = 'block';
     }
+}
 
-    navLinks.forEach(l => l.addEventListener('click', e => {
+// Nav links click
+navLinks.forEach(l => {
+    l.addEventListener('click', e => {
         e.preventDefault();
         navigateTo(l.getAttribute('data-page'));
-    }));
+    });
+});
 
-    if(adminLink) adminLink.addEventListener('click', e => { e.preventDefault(); navigateTo('admin-page'); });
+    //if(adminLink) adminLink.addEventListener('click', e => { e.preventDefault(); navigateTo('admin-page'); });
     if(backToStoreBtn) backToStoreBtn.addEventListener('click', e => { e.preventDefault(); navigateTo('home'); });
 
     // ==========================
     // CONFIG
     // ==========================
     const ADMIN_PASSWORD = 'admin123';
-    const GITHUB_BASE_URL = 'https://raw.githubusercontent.com/Urvashimahawar/urvashi.github.io/main/images/';
-
+	 const GITHUB_REPO = "Urvashimahawar/urvashi.github.io";
+    const GITHUB_BRANCH = "main";
+    const GITHUB_IMAGE_FOLDER = "images";
+    const GITHUB_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/${GITHUB_IMAGE_FOLDER}/`;
     let products = [];
     let cart = [];
 
@@ -1343,16 +1428,21 @@ P002,सुंदर झुमके साइज-2,30,149.50,https://raw.github
         updateCartCount();
     }
 
-    function renderCart(){
-        const container = document.getElementById('cart-items');
-        container.innerHTML='';
-        if(cart.length===0){container.innerHTML='आपका कार्ट खाली है'; return;}
-        cart.forEach(c=>{
-            const div = document.createElement('div');
-            div.textContent=`${c.name} - Qty: ${c.quantity} - ₹ ${formatINR(c.price*c.quantity)}`;
-            container.appendChild(div);
-        });
+    function renderCart() {
+    const container = document.getElementById('cart-items');
+    if (!container) return; // exit if element not found
+    container.innerHTML = '';
+    if(cart.length===0){
+        container.innerHTML = 'आपका कार्ट खाली है';
+        return;
     }
+    cart.forEach(c=>{
+        const div = document.createElement('div');
+        div.textContent=`${c.name} - Qty: ${c.quantity} - ₹ ${formatINR(c.price*c.quantity)}`;
+        container.appendChild(div);
+    });
+}
+
 
     function updateCartCount(){
         const count = cart.reduce((acc,c)=>acc+c.quantity,0);
@@ -1370,6 +1460,7 @@ P002,सुंदर झुमके साइज-2,30,149.50,https://raw.github
 </script>
 </body>
 </html>
+
 
 
 
