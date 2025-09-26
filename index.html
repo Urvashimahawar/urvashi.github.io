@@ -1402,47 +1402,49 @@ document.addEventListener('DOMContentLoaded', async function() {
     // ==========================
     // PRODUCT RENDERING
     // ==========================
-    function createProductCard(product) {
-        const card = document.createElement('div');
-        card.className = 'product-card';
+   function createProductCard(product) {
+    const card = document.createElement('div');
+    card.className = 'product-card';
 
-        const imageSrc = product.images && product.images.length > 0 ? product.images[0] :
-            'data:image/svg+xml;base64,...';
+    // Use first image from CSV, prepend GitHub URL if not empty
+    const imageSrc = product.images && product.images.length > 0
+        ? GITHUB_BASE_URL + product.images[0]   // Combine base URL + image name
+        : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmOGY5ZmEiLz48dGV4dCB4PSI1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNjY2MiPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg==';
 
-        card.innerHTML = `
-            <div class="product-image">
-                <img src="${imageSrc}" alt="${product.name}" onerror="this.src='data:image/svg+xml;base64,...'">
-            </div>
-            <div class="product-info">
-                <h3 class="product-title">${product.name}</h3>
-                <div class="product-price">₹ <span class="inr-symbol">${formatINR(product.price)}</span></div>
-                <div class="product-actions">
-                    <div class="quantity-control">
-                        <button class="qty-btn minus">-</button>
-                        <input type="text" class="qty-input" value="1" readonly>
-                        <button class="qty-btn plus">+</button>
-                    </div>
-                    <button class="add-to-cart" data-id="${product.id}">कार्ट में जोड़ें</button>
+    card.innerHTML = `
+        <div class="product-image">
+            <img src="${imageSrc}" alt="${product.name}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmOGY5ZmEiLz48dGV4dCB4PSI1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNjY2MiPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='">
+        </div>
+        <div class="product-info">
+            <h3 class="product-title">${product.name}</h3>
+            <div class="product-price">₹ <span class="inr-symbol">${formatINR(product.price)}</span></div>
+            <div class="product-actions">
+                <div class="quantity-control">
+                    <button class="qty-btn minus">-</button>
+                    <input type="text" class="qty-input" value="1" readonly>
+                    <button class="qty-btn plus">+</button>
                 </div>
+                <button class="add-to-cart" data-id="${product.id}">कार्ट में जोड़ें</button>
             </div>
-        `;
+        </div>
+    `;
 
-        const plusBtn = card.querySelector('.plus');
-        const minusBtn = card.querySelector('.minus');
-        const qtyInput = card.querySelector('.qty-input');
+    const plusBtn = card.querySelector('.plus');
+    const minusBtn = card.querySelector('.minus');
+    const qtyInput = card.querySelector('.qty-input');
 
-        plusBtn.addEventListener('click', () => qtyInput.value = parseInt(qtyInput.value) + 1);
-        minusBtn.addEventListener('click', () => {
-            if (parseInt(qtyInput.value) > 1) qtyInput.value = parseInt(qtyInput.value) - 1;
-        });
+    plusBtn.addEventListener('click', () => qtyInput.value = parseInt(qtyInput.value) + 1);
+    minusBtn.addEventListener('click', () => {
+        if (parseInt(qtyInput.value) > 1) qtyInput.value = parseInt(qtyInput.value) - 1;
+    });
 
-        card.querySelector('.add-to-cart').addEventListener('click', () => {
-            addToCart(product.id, parseInt(qtyInput.value));
-            showTemporaryMessage('कार्ट में जोड़ा गया!');
-        });
+    card.querySelector('.add-to-cart').addEventListener('click', () => {
+        addToCart(product.id, parseInt(qtyInput.value));
+        showTemporaryMessage('कार्ट में जोड़ा गया!');
+    });
 
-        return card;
-    }
+    return card;
+}
 
     function renderProducts() {
         const productsGrid = document.querySelector('#products .products-grid');
@@ -1537,6 +1539,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 </body>
 </html>
+
 
 
 
