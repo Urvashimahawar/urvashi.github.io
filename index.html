@@ -925,7 +925,7 @@
                 <p>Find gifts for every occasion at Urvashi Gift Center. We offer a wide range of products for every taste and budget.</p>
                 <p>Explore our collection, add new items, and manage your shopping cart with ease.</p>
                 <div style="text-align: center; margin-top: 20px;">
-                    <button class="btn btn-primary" id="explore-btn">View Products</button>
+                    <!-- <button class="btn btn-primary" id="explore-btn">View Products</button> -->
                 </div>
             </div>
             
@@ -1227,9 +1227,7 @@ const loginError = document.getElementById('login-error');
                 loginError.style.display = 'none';
                 document.getElementById('admin-password').value = '';
             });
- // Explore products button
-            document.getElementById('explore-btn').addEventListener('click', function() {
-                navigateTo('products');
+ 
 // Updated navigateTo function
 function navigateTo(pageId) {
     // Remove active class from all nav links
@@ -1741,6 +1739,7 @@ navLinks.forEach(l => {
 </script>
 </body>
 </html>
+
 
 
 
