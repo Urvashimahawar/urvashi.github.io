@@ -1227,7 +1227,9 @@ const loginError = document.getElementById('login-error');
                 loginError.style.display = 'none';
                 document.getElementById('admin-password').value = '';
             });
-
+ // Explore products button
+            document.getElementById('explore-btn').addEventListener('click', function() {
+                navigateTo('products');
 // Updated navigateTo function
 function navigateTo(pageId) {
     // Remove active class from all nav links
@@ -1739,6 +1741,7 @@ navLinks.forEach(l => {
 </script>
 </body>
 </html>
+
 
 
 
