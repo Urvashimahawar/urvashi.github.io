@@ -1334,7 +1334,7 @@ navLinks.forEach(l => {
                 products = [...products,...imported];
                 renderAdminProducts();
                 renderProducts();
-                showTemporaryMessage(`CSV से ${imported.length} उत्पाद आयात हुए!`);
+                showTemporaryMessage(`CSV से ${imported.length} Producut Imported!`);
             }});
         }
     });
@@ -1357,7 +1357,7 @@ navLinks.forEach(l => {
                         <input type="text" class="qty-input" value="1" readonly>
                         <button class="qty-btn plus">+</button>
                     </div>
-                    <button class="add-to-cart" data-id="${p.id}">कार्ट में जोड़ें</button>
+                    <button class="add-to-cart" data-id="${p.id}">Add Cart</button>
                 </div>
             </div>
         `;
@@ -1368,7 +1368,7 @@ navLinks.forEach(l => {
         minus.addEventListener('click',()=>{if(parseInt(qty.value)>1) qty.value=parseInt(qty.value)-1;});
         card.querySelector('.add-to-cart').addEventListener('click',()=>{
             addToCart(p.id,parseInt(qty.value));
-            showTemporaryMessage('कार्ट में जोड़ा गया!');
+            showTemporaryMessage('Added to Cart!');
         });
         return card;
     }
@@ -1378,7 +1378,7 @@ navLinks.forEach(l => {
         const homeGrid = document.querySelector('#home .products-grid');
         prodGrid.innerHTML=''; homeGrid.innerHTML='';
         if(products.length===0){
-            prodGrid.innerHTML=homeGrid.innerHTML='<div>कोई उत्पाद उपलब्ध नहीं</div>'; return;
+            prodGrid.innerHTML=homeGrid.innerHTML='<div>No products available</div>'; return;
         }
         products.forEach(p=>prodGrid.appendChild(createProductCard(p)));
         products.slice(0,3).forEach(p=>homeGrid.appendChild(createProductCard(p)));
@@ -1402,7 +1402,7 @@ navLinks.forEach(l => {
         document.querySelectorAll('.delete-product').forEach(btn=>{
             btn.addEventListener('click',()=>{ 
                 const id=parseInt(btn.dataset.id);
-                if(confirm('क्या आप वाकई इस उत्पाद को हटाना चाहते हैं?')){
+                if(confirm('Are you sure you want to remove this product?')){
                     products = products.filter(p=>p.id!==id);
                     renderAdminProducts();
                     renderProducts();
@@ -1428,7 +1428,7 @@ navLinks.forEach(l => {
     if (!container) return; // exit if element not found
     container.innerHTML = '';
     if(cart.length===0){
-        container.innerHTML = 'आपका कार्ट खाली है';
+        container.innerHTML = 'Your cart is empty';
         return;
     }
     cart.forEach(c=>{
@@ -1450,7 +1450,7 @@ navLinks.forEach(l => {
             // Export to CSV
             function exportToCSV() {
                 if (products.length === 0) {
-                    alert('एक्सपोर्ट करने के लिए कोई उत्पाद नहीं');
+                    alert('No products to export');
                     return;
                 }
                 
@@ -1483,7 +1483,7 @@ navLinks.forEach(l => {
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
                 
-                showStatus('उत्पाद CSV में सफलतापूर्वक एक्सपोर्ट हो गए!', 'success');
+                showStatus('Products successfully exported to CSV!', 'success');
             }
             
             // Import from CSV
@@ -1496,7 +1496,7 @@ navLinks.forEach(l => {
                     skipEmptyLines: true,
                     complete: function(results) {
                         if (results.errors.length > 0) {
-                            showStatus('CSV फ़ाइल पार्स करने में त्रुटि: ' + results.errors[0].message, 'error');
+                            showStatus('Error parsing CSV file: ' + results.errors[0].message, 'error');
                             imageLoading.style.display = 'none';
                             return;
                         }
@@ -1528,7 +1528,7 @@ navLinks.forEach(l => {
                         }
                         
                         if (importedProducts.length === 0) {
-                            showStatus('CSV फ़ाइल में कोई वैध उत्पाद नहीं मिले', 'error');
+                            showStatus('CSV No valid products were found in the file', 'error');
                             imageLoading.style.display = 'none';
                             return;
                         }
@@ -1538,7 +1538,7 @@ navLinks.forEach(l => {
                         renderAdminProducts();
                         renderProducts();
                         
-                        showStatus(`CSV से ${importedProducts.length} उत्पाद सफलतापूर्वक आयात हुए!`, 'success');
+                        showStatus(`CSV से ${importedProducts.length} Products imported successfully!`, 'success');
                         imageLoading.style.display = 'none';
                     }
                 });
@@ -1554,7 +1554,7 @@ navLinks.forEach(l => {
                     const availableFiles = await getAvailableCSVFiles();
                     
                     if (availableFiles.length === 0) {
-                        showStatus('GitHub पर कोई CSV फ़ाइल नहीं मिली', 'error');
+                        showStatus('No CSV file found on GitHub', 'error');
                         imageLoading.style.display = 'none';
                         return;
                     }
@@ -1564,7 +1564,7 @@ navLinks.forEach(l => {
                     const csvText = await loadCSVFromGitHub(csvFileName);
                     
                     if (!csvText) {
-                        showStatus('GitHub से CSV लोड नहीं हो सकी', 'error');
+                        showStatus('Unable to load CSV from GitHub', 'error');
                         imageLoading.style.display = 'none';
                         return;
                     }
@@ -1728,6 +1728,7 @@ navLinks.forEach(l => {
 </script>
 </body>
 </html>
+
 
 
 
