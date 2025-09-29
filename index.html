@@ -1264,7 +1264,12 @@ navLinks.forEach(l => {
 
     //if(adminLink) adminLink.addEventListener('click', e => { e.preventDefault(); navigateTo('admin-page'); });
     if(backToStoreBtn) backToStoreBtn.addEventListener('click', e => { e.preventDefault(); navigateTo('home'); });
-
+// Back to store from admin
+            backToStoreBtn.addEventListener('click', function() {
+                adminPage.style.display = 'none';
+                publicPage.style.display = 'block';
+                navigateTo('home');
+            });
     // ==========================
     // CONFIG
     // ==========================
@@ -1734,6 +1739,7 @@ navLinks.forEach(l => {
 </script>
 </body>
 </html>
+
 
 
 
