@@ -1,0 +1,4 @@
+productId,productName,quantity,price,imageUrl1,imageUrl2,imageUrl3
+P001,Image-1,1,99,image-01.jpeg,null,null
+P002,Image-10,1,99,image-02.jpeg,null,null
+P003,Image-100,1,99,image-03.jpeg,null,null
