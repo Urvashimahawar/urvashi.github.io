@@ -1243,7 +1243,10 @@ function navigateTo(pageId) {
         if (footer) footer.style.display = 'block';
     }
 }
-
+// Explore products button
+            document.getElementById('explore-btn').addEventListener('click', function() {
+                navigateTo('products');
+            });
 // Nav links click
 navLinks.forEach(l => {
     l.addEventListener('click', e => {
@@ -1897,6 +1900,7 @@ function renderCart() {
 </script>
 </body>
 </html>
+
 
 
 
