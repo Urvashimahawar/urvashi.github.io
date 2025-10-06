@@ -1907,7 +1907,7 @@ document.addEventListener('keydown', function(e) {
     if ((e.ctrlKey || e.metaKey) && e.keyCode === 85) {
         e.preventDefault();
         e.stopPropagation();
-        showShortcutBlockedMessage("Page source view is disabled");
+     //   showShortcutBlockedMessage("Page source view is disabled");
         return false;
     }
     
@@ -1915,7 +1915,7 @@ document.addEventListener('keydown', function(e) {
     if (e.keyCode === 123) {
         e.preventDefault();
         e.stopPropagation();
-        showShortcutBlockedMessage("Developer tools are disabled");
+       // showShortcutBlockedMessage("Developer tools are disabled");
         return false;
     }
     
@@ -1923,7 +1923,7 @@ document.addEventListener('keydown', function(e) {
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.keyCode === 73) {
         e.preventDefault();
         e.stopPropagation();
-        showShortcutBlockedMessage("Developer tools are disabled");
+       // showShortcutBlockedMessage("Developer tools are disabled");
         return false;
     }
     
@@ -1931,7 +1931,7 @@ document.addEventListener('keydown', function(e) {
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.keyCode === 74) {
         e.preventDefault();
         e.stopPropagation();
-        showShortcutBlockedMessage("Developer console is disabled");
+      //  showShortcutBlockedMessage("Developer console is disabled");
         return false;
     }
     
@@ -1939,7 +1939,7 @@ document.addEventListener('keydown', function(e) {
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.keyCode === 67) {
         e.preventDefault();
         e.stopPropagation();
-        showShortcutBlockedMessage("Inspect element is disabled");
+       // showShortcutBlockedMessage("Inspect element is disabled");
         return false;
     }
     
@@ -1947,7 +1947,7 @@ document.addEventListener('keydown', function(e) {
     if (e.keyCode === 93) { // Context Menu key
         e.preventDefault();
         e.stopPropagation();
-        showShortcutBlockedMessage("Context menu is disabled");
+      //  showShortcutBlockedMessage("Context menu is disabled");
         return false;
     }
 });
@@ -1955,7 +1955,7 @@ document.addEventListener('keydown', function(e) {
 // Disable right-click context menu
 document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
-    showShortcutBlockedMessage("Right-click context menu is disabled");
+   // showShortcutBlockedMessage("Right-click context menu is disabled");
     return false;
 });
 
@@ -2043,6 +2043,7 @@ document.addEventListener('dragstart', function(e) {
 </script>
 </body>
 </html>
+
 
 
 
