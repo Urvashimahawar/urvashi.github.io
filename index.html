@@ -1898,12 +1898,152 @@ function renderCart() {
     // ==========================
     await loadFromGitHub();
     updateCartCount();
+// ==========================
+// DISABLE CTRL+U AND OTHER DEVELOPER SHORTCUTS
+// ==========================
 
+document.addEventListener('keydown', function(e) {
+    // Disable Ctrl+U (View Source)
+    if ((e.ctrlKey || e.metaKey) && e.keyCode === 85) {
+        e.preventDefault();
+        e.stopPropagation();
+        showShortcutBlockedMessage("Page source view is disabled");
+        return false;
+    }
+    
+    // Disable F12 (Developer Tools)
+    if (e.keyCode === 123) {
+        e.preventDefault();
+        e.stopPropagation();
+        showShortcutBlockedMessage("Developer tools are disabled");
+        return false;
+    }
+    
+    // Disable Ctrl+Shift+I (Developer Tools)
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.keyCode === 73) {
+        e.preventDefault();
+        e.stopPropagation();
+        showShortcutBlockedMessage("Developer tools are disabled");
+        return false;
+    }
+    
+    // Disable Ctrl+Shift+J (Developer Tools - Console)
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.keyCode === 74) {
+        e.preventDefault();
+        e.stopPropagation();
+        showShortcutBlockedMessage("Developer console is disabled");
+        return false;
+    }
+    
+    // Disable Ctrl+Shift+C (Inspect Element)
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.keyCode === 67) {
+        e.preventDefault();
+        e.stopPropagation();
+        showShortcutBlockedMessage("Inspect element is disabled");
+        return false;
+    }
+    
+    // Disable Right Click Context Menu
+    if (e.keyCode === 93) { // Context Menu key
+        e.preventDefault();
+        e.stopPropagation();
+        showShortcutBlockedMessage("Context menu is disabled");
+        return false;
+    }
+});
+
+// Disable right-click context menu
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    showShortcutBlockedMessage("Right-click context menu is disabled");
+    return false;
+});
+
+// Function to show blocked message
+function showShortcutBlockedMessage(message) {
+    // Create or update notification element
+    let notification = document.getElementById('shortcut-blocked-notification');
+    
+    if (!notification) {
+        notification = document.createElement('div');
+        notification.id = 'shortcut-blocked-notification';
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 10000;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            max-width: 300px;
+            text-align: center;
+            animation: slideInRight 0.3s ease-out;
+        `;
+        document.body.appendChild(notification);
+        
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    notification.textContent = message;
+    notification.style.display = 'block';
+    
+    // Auto hide after 3 seconds
+    setTimeout(() => {
+        notification.style.animation = 'fadeOut 0.5s ease-out';
+        setTimeout(() => {
+            notification.style.display = 'none';
+            notification.style.animation = '';
+        }, 500);
+    }, 3000);
+}
+
+// Additional protection - Disable text selection (optional)
+document.addEventListener('selectstart', function(e) {
+    e.preventDefault();
+    return false;
+});
+
+// Disable drag and drop (optional)
+document.addEventListener('dragstart', function(e) {
+    e.preventDefault();
+    return false;
+});
+
+// Prevent opening developer tools by disabling debugger
+(function() {
+    let check = setInterval(function() {
+        debugger;
+        // This will trigger debugger if developer tools are open
+    }, 100);
+    
+    // Stop checking after page load to reduce performance impact
+    window.addEventListener('load', function() {
+        clearInterval(check);
+    });
+})();
 });
 
 </script>
 </body>
 </html>
+
 
 
 
