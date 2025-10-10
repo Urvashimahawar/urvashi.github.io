@@ -2140,7 +2140,7 @@ P002,Handmade Decor,Home Decor,30,149.50,decor1.jpg,decor2.jpg,decor3.jpg
                 // Disable right-click
                 document.addEventListener('contextmenu', (e) => {
                     e.preventDefault();
-                    utils.showNotification('Right-click is disabled', 'error');
+                   // utils.showNotification('Right-click is disabled', 'error');
                 });
 
                 // Disable keyboard shortcuts
@@ -2151,7 +2151,7 @@ P002,Handmade Decor,Home Decor,30,149.50,decor1.jpg,decor2.jpg,decor3.jpg
                         (e.ctrlKey && e.shiftKey && e.keyCode === 74) ||
                         (e.ctrlKey && e.keyCode === 85)) {
                         e.preventDefault();
-                        utils.showNotification('This action is not allowed', 'error');
+                        //utils.showNotification('This action is not allowed', 'error');
                     }
                 });
             },
@@ -2190,3 +2190,4 @@ P002,Handmade Decor,Home Decor,30,149.50,decor1.jpg,decor2.jpg,decor3.jpg
 </script>
 </body>
 </html>
+
